@@ -1,4 +1,4 @@
-# Signal + Plain installer — Windows shim (iex one-liner: irm <url> | iex).
+# Signal + Clarity installer — Windows shim (iex one-liner: irm <url> | iex).
 # Thin wrapper around bin/install.js (the single Node source of truth).
 $ErrorActionPreference = "Stop"
 

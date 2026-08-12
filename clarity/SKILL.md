@@ -1,7 +1,7 @@
 ---
-name: plain
+name: clarity
 description: >
-  Clear, compact English for technical communication. Use for Plain, simple
+  Clear, compact English for technical communication. Use for Clarity, simple
   English, explanations, plans, reviews, reports, and documentation. Draws on
   Orwell, Strunk and White, Flesch, and Shannon.
 ---
