@@ -5,7 +5,7 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 # Signal
 
-Optimize agent efficacy with efficient, evidence-led control:
+Maximize task success with the smallest safe action; token cost is secondary:
 
 `source → encoding → channel → decoder → outcome → feedback`
 
