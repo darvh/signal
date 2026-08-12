@@ -14,7 +14,7 @@ $SKILLS = @("signal", "clarity")
 # name | userSkills | projectSkills | userCmds | projectCmds
 $Targets = @(
   @{ Name = "opencode";    UserSkills = "$HOME\.config\opencode\skills"; ProjectSkills = ".opencode\skills"; UserCmds = "$HOME\.config\opencode\commands"; ProjectCmds = ".opencode\commands" },
-  @{ Name = "claude-code"; UserSkills = "$HOME\.claude\skills";          ProjectSkills = ".claude\skills";    UserCmds = "$HOME\.claude\commands";         ProjectCmds = ".claude\commands" },
+  @{ Name = "claude-code"; UserSkills = "$HOME\.claude\skills";          ProjectSkills = ".claude\skills";    UserCmds = $null; ProjectCmds = $null },
   @{ Name = "codex";       UserSkills = "$HOME\.codex\skills";           ProjectSkills = ".codex\skills";     UserCmds = $null; ProjectCmds = $null },
   @{ Name = "cursor";      UserSkills = "$HOME\.cursor\skills";          ProjectSkills = ".cursor\skills";    UserCmds = $null; ProjectCmds = $null },
   @{ Name = "copilot";     UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null },

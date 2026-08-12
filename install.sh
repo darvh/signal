@@ -29,7 +29,7 @@ SKILLS=(signal clarity)
 
 # agent|userSkills|projectSkills|userCommands|projectCommands
 targets="opencode|~/.config/opencode/skills|.opencode/skills|~/.config/opencode/commands|.opencode/commands
-claude-code|~/.claude/skills|.claude/skills|~/.claude/commands|.claude/commands
+claude-code|~/.claude/skills|.claude/skills||
 codex|~/.codex/skills|.codex/skills||
 cursor|~/.cursor/skills|.cursor/skills||
 copilot|~/.agents/skills|.agents/skills||
