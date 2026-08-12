@@ -37,6 +37,15 @@ Ask: what would falsify this? Whose uncertainty does it resolve? Where is the
 leverage point? Confidence is not evidence. Measure net change over a real
 baseline. Use deterministic rules where known; label interpretation.
 
+## Verification discipline
+
+Verify at the decision point, once, decisively. Prefer the check that would
+fail if you are wrong — a falsifying test, not a re-read of your own work.
+Confirm the check is meaningful: it must catch the original fault (run it
+against the faulty state, not just the fixed one). Stop when the evidence
+decides; re-verifying or re-reviewing the same ground adds no evidence.
+
+
 ## Lineage
 
 Use names as handles, not decoration: Shannon = channel/noise; Wiener =
