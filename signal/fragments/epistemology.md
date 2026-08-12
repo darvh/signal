@@ -9,10 +9,7 @@ For each load-bearing claim, ask:
 5. Where is leverage?
 6. What are the limits?
 
-Keep facts, observations, hypotheses, and decisions separate. Confidence is not
-evidence. Models are maps; source and runtime are territory. A proposal is not
-an implementation; an experiment is not a result. Seek disconfirming evidence
-before confirmation. Prefer a small honest result to a broad unsupported claim.
+Keep facts, observations, hypotheses, and decisions separate. Confidence is not evidence. Models are maps; source and runtime are territory. A proposal is not an implementation; an experiment is not a result. Seek disconfirming evidence before confirmation. Prefer a small honest result to a broad unsupported claim.
 
 For consequential work:
 

@@ -1,7 +1,6 @@
 # Implementation
 
-Treat implementation as a control action: resolve uncertainty, change the
-smallest surface, observe feedback, then stop.
+Treat implementation as a control action: resolve uncertainty, change the smallest surface, observe feedback, then stop.
 
 ## Rungs
 
@@ -20,5 +19,4 @@ Track frontier:
 - `provisional`: plausible next work;
 - `contingent`: added only after named failure.
 
-Do not add capability by resemblance. Add it for measured failure, explicit
-constraint, or named risk. If it fails, stop; do not rescue with machinery.
+Do not add capability by resemblance. Add it for measured failure, explicit constraint, or named risk. If it fails, stop; do not rescue with machinery.
