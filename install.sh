@@ -21,12 +21,12 @@ source_path="${BASH_SOURCE[0]:-}"
 if [ -n "$source_path" ]; then
   here="$(cd "$(dirname "$source_path")" 2>/dev/null && pwd)" || here=""
 fi
-if [ -n "$here" ] && [ -f "$here/bin/install.js" ]; then
-  exec node "$here/bin/install.js" "$@"
+if [ -n "$here" ] && [ -f "$here/install.js" ]; then
+  exec node "$here/install.js" "$@"
 fi
 
 # curl-pipe path: acquire from the distribution repo into a temp dir.
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 git clone --depth 1 https://github.com/darvh/signal.git "$tmp" >/dev/null 2>&1
-exec node "$tmp/bin/install.js" "$@"
+exec node "$tmp/install.js" "$@"

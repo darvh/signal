@@ -2,7 +2,7 @@
 // Signal + Clarity skill installer — single source of truth, OS-agnostic.
 // Works on macOS, Linux, Windows (junction symlinks) via Node's os/path.
 //
-//   node bin/install.js [--local] [--targets opencode,claude-code,codex,cursor,copilot,antigravity]
+//   node install.js [--local] [--targets opencode,claude-code,codex,cursor,copilot,antigravity]
 //                       [--force] [--dry-run]
 //
 // User scope: absent agent dirs reported (agent-miss), never created.
@@ -15,7 +15,7 @@ const path = require("path");
 const fs = require("fs");
 
 const HERE = __dirname;
-const REPO = path.resolve(HERE, "..");
+const REPO = __dirname;
 const SKILLS = ["signal", "clarity"];
 
 // [agent, userScopeSkillDir, projectScopeSkillDir, userScopeCommandDir]

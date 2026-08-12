@@ -10,8 +10,8 @@ $major = [int](node -p "process.versions.node.split('.')[0]")
 if ($major -lt 18) { Write-Error "signal: Node too old (need >=18)."; exit 1 }
 
 $here = $PSScriptRoot
-if (Test-Path "$here\bin\install.js") {
-  & node "$here\bin\install.js" @args
+if (Test-Path "$here\install.js") {
+  & node "$here\install.js" @args
   exit $LASTEXITCODE
 }
 
@@ -20,5 +20,5 @@ $tmp = Join-Path $env:TEMP "signal-install"
 if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp }
 & git clone --depth 1 https://github.com/darvh/signal.git $tmp
 if ($LASTEXITCODE -ne 0) { Write-Error "signal: clone failed"; exit 1 }
-& node "$tmp\bin\install.js" @args
+& node "$tmp\install.js" @args
 exit $LASTEXITCODE
