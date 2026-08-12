@@ -1,11 +1,11 @@
 ---
 name: clarity
-description: "Compact communication: answer first, without filler. Use when responding, explaining, reporting, writing, or summarizing."
+description: "Token efficiency: compress communication without losing meaning. Use when responding, explaining, reporting, writing, or summarizing."
 ---
 
 # Clarity
 
-Write compact technical English. Keep API names, terms, numbers, units, commands, code, and errors exact. Replace jargon only when meaning survives.
+Optimize token use, not thought. Write compact technical English. Keep API names, terms, numbers, units, commands, code, and errors exact. Replace jargon only when meaning survives.
 
 ## Channels
 

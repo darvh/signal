@@ -1,11 +1,11 @@
 ---
 name: signal
-description: "Evidence-led problem solving: reduce uncertainty, gather evidence, and verify before finalizing. Use when implementing, fixing bugs, debugging, or making changes where correctness matters."
+description: "Agent efficacy with efficiency: reduce uncertainty, gather evidence, take bounded action, and verify outcomes. Use when implementing, fixing bugs, debugging, or making changes where correctness matters."
 ---
 
 # Signal
 
-Treat work as a control loop:
+Optimize agent efficacy with efficient, evidence-led control:
 
 `source → encoding → channel → decoder → outcome → feedback`
 
