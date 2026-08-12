@@ -1,53 +1,74 @@
-# Agent skills for efficiency and efficacy
+# Signal
 
-This repository contains small, composable skills for better agent work.
+Small, composable skills for more efficient and effective agent work.
 
-- **Signal** improves efficacy: reduce uncertainty, gather decision-changing
-  evidence, act within bounds, verify, and recover when possible.
-- **Clarity** improves communication: use clear, compact English without hiding
-  conditions, uncertainty, safety detail, or ownership.
+## Skills
 
-## Efficiency and efficacy
+- [Signal](signal/SKILL.md) — reduce uncertainty, gather useful evidence, act
+  within bounds, verify, and recover.
+- [Clarity](clarity/SKILL.md) — write clear, compact English while preserving
+  conditions, uncertainty, ownership, and safety detail.
 
-Efficiency is not merely fewer tokens. It is less wasted work, smaller change
-surface, faster feedback, and lower cognitive load.
-
-Efficacy is not merely activity. It is solving the right problem with evidence,
-clear communication, bounded authority, verification, and honest limits.
-
-Use the skills together when useful:
+Signal improves efficacy. Clarity improves communication. Together:
 
 `Signal → Clarity`
 
-Question the work, reduce uncertainty, communicate the result clearly, then
-compress only where meaning remains safe. Skip any skill that does not help.
+Use either alone when that is enough. `/signal [depth] [protocol]` supports
+`quick`, `standard`, and `rigorous` work plus `audit`, `debt`, `recommend`,
+`brownfield`, `greenfield`, and `heal` protocols.
 
-## Install
+## Signal fragments
 
-One line, agent-agnostic (opencode, claude-code, codex, cursor, copilot,
-antigravity; user or project scope):
+Load only the fragment needed:
 
-```bash
-# macOS / Linux / WSL
-curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
+- [Channel](signal/fragments/channel.md) — signal, noise, and redundancy
+- [Epistemology](signal/fragments/epistemology.md) — claims and falsification
+- [Verification](signal/fragments/verification.md) — precision and measurement
+- [Recovery](signal/fragments/recovery.md) — trust and reversibility
+- [Implementation](signal/fragments/implementation.md) — execution gates
+- [Modes](signal/fragments/modes.md) — protocol details
 
-# Windows
-irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
-```
+## Efficiency and efficacy
 
-Flags: `--local` (project scope), `--targets <agents>`, `--skills <signal|clarity|both>` (default both), `--force`, `--dry-run`.
-Installs both skills by default; slash commands are added where supported (opencode, claude-code).
-Installs are symlinks; edits in this repo apply live. Restart your agent.
+Efficiency means less wasted work, smaller change surface, faster feedback,
+lower token use, and lower cognitive load.
+
+Efficacy means solving the right problem with evidence, clear communication,
+bounded authority, verification, and honest limits.
+
+Do not optimize one at the expense of the other. Measure both:
+
+- Efficiency: tokens, actions, elapsed time, files changed, retries, and
+  unnecessary work avoided.
+- Efficacy: decision quality, evidence strength, correctness, regression rate,
+  recovery quality, and unresolved risk.
+
+No benchmark suite is included yet. Do not claim gains without a baseline;
+record task, baseline, intervention, result, and limits when benchmarking.
 
 ## Principles
 
-The skills use portable principles such as YAGNI, DRY, KISS, POLA, least
-privilege, idempotence, fail-fast behavior, separation of concerns, reversibility,
-and feedback. They are heuristics, not excuses to remove safety, accessibility,
-validation, privacy, recovery, or explicit requirements.
+Portable tests include YAGNI, DRY, KISS, POLA, least privilege, idempotence,
+fail-fast behavior, separation of concerns, reversibility, and feedback. They
+are heuristics, not excuses to remove safety, accessibility, validation,
+privacy, recovery, or explicit requirements.
 
-## Acknowledgements
+## Install
 
-Inspired by Claude Shannon, Norbert Wiener, W. Ross Ashby, Karl Popper, W.
-Edwards Deming, Aristotle, Socrates, William of Ockham, George Orwell, William
-Strunk and E. B. White, Rudolf Flesch, and Caveman and Ponytail skills.
+### macOS, Linux, or WSL
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
+```
+
+### Windows
+
+```powershell
+irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
+```
+
+Useful flags: `--local`, `--targets <agents>`, `--skills <signal|clarity|both>`,
+`--force`, and `--dry-run`. See [install.sh](install.sh) and
+[install.ps1](install.ps1).
+
+See [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) for sources and influences.
