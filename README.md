@@ -4,7 +4,7 @@ This repository contains small, composable skills for better agent work.
 
 - **Signal** improves efficacy: reduce uncertainty, gather decision-changing
   evidence, act within bounds, verify, and recover when possible.
-- **Plain** improves communication: use clear, compact English without hiding
+- **Clarity** improves communication: use clear, compact English without hiding
   conditions, uncertainty, safety detail, or ownership.
 
 ## Efficiency and efficacy
@@ -17,7 +17,7 @@ clear communication, bounded authority, verification, and honest limits.
 
 Use the skills together when useful:
 
-`Signal → Plain`
+`Signal → Clarity`
 
 Question the work, reduce uncertainty, communicate the result clearly, then
 compress only where meaning remains safe. Skip any skill that does not help.
