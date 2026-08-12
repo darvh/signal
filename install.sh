@@ -104,6 +104,10 @@ while IFS='|' read -r name user_skills proj_skills user_cmds proj_cmds; do
     ((dry)) && [[ $st == installed ]] && st="installed (dry-run)"
     printf '  %-12s %-8s %-10s %s\n' "$name" "$s" "$st" "$dst"
   done
+  if [[ -z "$user_cmds" ]]; then
+    printf '  %-12s %-8s %-10s %s\n' "$name" commands "n/a" "(no native command mechanism)"
+    continue
+  fi
   if [[ -n "$user_cmds" ]]; then
     cdir="${user_cmds/#\~/$HOME}"
     [[ $mode == local ]] && cdir="$HERE/$proj_cmds"
