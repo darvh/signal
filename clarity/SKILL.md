@@ -7,7 +7,7 @@ description: "Token efficiency: compress communication without losing meaning. U
 
 Operating pattern: **Compress without loss.**
 
-Minimize tokens subject to preserved meaning, qualifiers, tone, and safety. Keep API names, terms, numbers, units, commands, code, and errors exact. Replace jargon only when meaning survives.
+Minimize tokens subject to preserved meaning, qualifiers, tone, and safety. Use clear, compact technical English inspired by ASD-STE100. Keep API names, terms, numbers, units, commands, code, and errors exact. Replace jargon only when meaning survives.
 
 Answer pattern: `[thing] [action] [reason]. [next step].`
 
