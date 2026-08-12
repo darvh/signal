@@ -5,7 +5,11 @@ description: "Token efficiency: compress communication without losing meaning. U
 
 # Clarity
 
+Operating pattern: **Compress without loss.**
+
 Minimize tokens subject to preserved meaning, qualifiers, tone, and safety. Keep API names, terms, numbers, units, commands, code, and errors exact. Replace jargon only when meaning survives.
+
+Answer pattern: `[thing] [action] [reason]. [next step].`
 
 ## Channels
 

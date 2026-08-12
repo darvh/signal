@@ -5,9 +5,13 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 # Signal
 
-Maximize task success with the smallest safe action; token cost is secondary:
+Default action loop: **Observe, act, verify.**
 
-`source → encoding → channel → decoder → outcome → feedback`
+Maximize task success with the smallest safe action; token cost is secondary.
+
+Choose the loop that fits: learn, decide, act, verify, recover, communicate, or hand off.
+
+One useful communication loop: `source → encoding → channel → decoder → outcome → feedback`.
 
 Find the relevant uncertainty, noise, and receiver. Take the smallest reversible action that yields evidence. Separate facts, observations, hypotheses, and decisions.
 
@@ -30,6 +34,8 @@ Default: `standard`; no protocol means general Signal.
 5. Verify; record limits, recovery, feedback.
 
 Ask: what would falsify this, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure net change against a real baseline. Use deterministic rules when known; label interpretation.
+
+Answer pattern: `[thing] [action] [reason]. [next step].`
 
 ## Verification discipline
 
