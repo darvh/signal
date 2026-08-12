@@ -1,1 +1,12 @@
 /.DS_Store
+
+# secrets
+*.env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
