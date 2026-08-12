@@ -22,6 +22,22 @@ Use the skills together when useful:
 Question the work, reduce uncertainty, communicate the result clearly, then
 compress only where meaning remains safe. Skip any skill that does not help.
 
+## Install
+
+One line, agent-agnostic (opencode, claude-code, codex, cursor, copilot,
+antigravity; user or project scope):
+
+```bash
+# macOS / Linux / WSL
+curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
+
+# Windows
+irm https://raw.githubusercontent.com/darvh/signal/main/bin/install.ps1 | iex
+```
+
+Flags: `--local` (project scope), `--targets <agents>`, `--force`, `--dry-run`.
+Installs are symlinks; edits in this repo apply live. Restart your agent.
+
 ## Principles
 
 The skills use portable principles such as YAGNI, DRY, KISS, POLA, least
