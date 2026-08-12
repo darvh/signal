@@ -1,9 +1,7 @@
 ---
 name: signal
 description: >
-  Evidence-led uncertainty reduction and bounded recovery. Use for Signal,
-  first-principles, audit, debt, recommend, brownfield, greenfield, or
-  self-healing work.
+  Efficacy for problem solving: reduce uncertainty, gather evidence, verify before finalizing. Use when implementing, fixing bugs, completing tasks, debugging, or making changes — when the answer must be correct, not just plausible.
 ---
 
 # Signal

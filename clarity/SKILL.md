@@ -1,8 +1,7 @@
 ---
 name: clarity
 description: >
-  Compact, clear English for technical communication, plans, reviews, reports,
-  and documentation.
+  Efficiency: compact, token-efficient communication. Use when responding, explaining, reporting, writing, or summarizing — answer first, no filler.
 ---
 
 # Clarity
