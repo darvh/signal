@@ -1,33 +1,33 @@
 ---
 name: clarity
-description: "Efficiency: compact, token-efficient communication. Use when responding, explaining, reporting, writing, or summarizing — answer first, no filler."
+description: "Compact communication: answer first, without filler. Use when responding, explaining, reporting, writing, or summarizing."
 ---
 
 # Clarity
 
-Write compact technical English. Keep API names, domain terms, numbers, units, commands, code, and errors exact. Replace jargon only when meaning survives.
+Write compact technical English. Keep API names, terms, numbers, units, commands, code, and errors exact. Replace jargon only when meaning survives.
 
 ## Channels
 
-- **Memories / internal** (AGENTS.md, CLAUDE.md, notes, agent-to-agent): use `full` (default). Compress when meaning stays clear.
-- **User-facing docs** (README, docs, API docs, changelogs): use `lite`. Keep `a/an/the`, complete sentences, and natural tone.
+- **Memories / internal** (AGENTS.md, CLAUDE.md, notes, agent-to-agent): use `full` (default); compress when clear.
+- **User-facing docs** (README, docs, API docs, changelogs): use `lite`; keep articles, complete sentences, and natural tone.
 
 ## Modes
 
-- `lite`: natural English for user-facing writing; keep `a/an/the`, complete sentences, and natural tone.
-- `full` (default): drop `a/an/the`, filler, and throat-clearing when clear; fragments allowed. Never harm meaning or tone. Lead with answer or action.
+- `lite`: natural user-facing English; keep articles, complete sentences, and natural tone.
+- `full` (default): drop articles, filler, and throat-clearing when clear; fragments allowed. Preserve meaning and tone. Lead with answer or action.
 - `ultra`: maximum compression; drop articles and use fragments whenever clear.
 - `stop clarity` / `normal mode`: stop.
 
-All modes: remove pleasantries, hedges, repetition, and needless jargon. Use concrete words and active voice. Preserve negation, conditions, order, ownership, uncertainty, exceptions, caveats, and safety detail. Use English.
+All modes: remove pleasantries, hedges, repetition, and needless jargon. Use concrete words and active voice. Preserve negation, conditions, order, ownership, uncertainty, exceptions, caveats, and safety detail.
 
 ## Tool narration
 
-Do not narrate routine tool calls. Report result, evidence, or blocker. Mention tools or steps only when asked or when they affect trust, reproducibility, or the decision.
+Do not narrate routine tool calls. Report results, evidence, or blockers. Mention tools or steps only when asked or when they affect trust, reproducibility, or decisions.
 
 ## Lineage
 
-Use names as handles: Orwell = language reveals thought; Strunk and White = omit needless words; Flesch = readable sentence structure; Shannon = reduce decoding noise. Apply principles, not imitation.
+Use names as handles: Orwell = language reveals thought; Strunk and White = omit needless words; Flesch = readable structure; Shannon = reduce decoding noise. Apply principles, not imitation.
 
 ## Auto-clarity
 

@@ -1,6 +1,6 @@
 # Implementation
 
-Treat implementation as a control action: resolve uncertainty, change the smallest surface, observe feedback, then stop.
+Treat implementation as a control action: resolve uncertainty, change the smallest surface, observe feedback, stop.
 
 ## Rungs
 
@@ -10,7 +10,7 @@ Treat implementation as a control action: resolve uncertainty, change the smalle
 4. Take one small test action.
 5. Add minimum durable solution.
 
-For bugs, trace callers; fix shared cause. Before refactoring:
+For bugs, trace callers and fix the shared cause. Before refactoring:
 `characterize → de-duplicate → adhere`.
 
 Track frontier:
@@ -19,4 +19,4 @@ Track frontier:
 - `provisional`: plausible next work;
 - `contingent`: added only after named failure.
 
-Do not add capability by resemblance. Add it for measured failure, explicit constraint, or named risk. If it fails, stop; do not rescue with machinery.
+Add capability only for measured failure, explicit constraint, or named risk. If it fails, stop; do not rescue it with machinery.

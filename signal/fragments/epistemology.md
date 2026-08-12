@@ -1,6 +1,6 @@
 # Epistemology
 
-For each load-bearing claim, ask:
+For each load-bearing claim:
 
 1. What is it?
 2. How do we know?
@@ -9,9 +9,9 @@ For each load-bearing claim, ask:
 5. Where is leverage?
 6. What are the limits?
 
-Keep facts, observations, hypotheses, and decisions separate. Confidence is not evidence. Models are maps; source and runtime are territory. A proposal is not an implementation; an experiment is not a result. Seek disconfirming evidence before confirmation. Prefer a small honest result to a broad unsupported claim.
+Separate facts, observations, hypotheses, and decisions. Confidence is not evidence. Models are maps; source and runtime are territory. A proposal is not an implementation; an experiment is not a result. Seek disconfirming evidence first. Prefer a small honest result to a broad unsupported claim.
 
-For consequential work:
+For consequential work, record:
 
 ```yaml
 question:
