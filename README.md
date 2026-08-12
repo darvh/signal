@@ -32,10 +32,11 @@ antigravity; user or project scope):
 curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
 
 # Windows
-irm https://raw.githubusercontent.com/darvh/signal/main/bin/install.ps1 | iex
+irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
 ```
 
-Flags: `--local` (project scope), `--targets <agents>`, `--force`, `--dry-run`.
+Flags: `--local` (project scope), `--targets <agents>`, `--skills <signal|clarity|both>` (default both), `--force`, `--dry-run`.
+Installs both skills by default; slash commands are added where supported (opencode, claude-code).
 Installs are symlinks; edits in this repo apply live. Restart your agent.
 
 ## Principles

@@ -19,5 +19,6 @@ if (Test-Path "$here\bin\install.js") {
 $tmp = Join-Path $env:TEMP "signal-install"
 if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp }
 & git clone --depth 1 https://github.com/darvh/signal.git $tmp
+if ($LASTEXITCODE -ne 0) { Write-Error "signal: clone failed"; exit 1 }
 & node "$tmp\bin\install.js" @args
 exit $LASTEXITCODE
