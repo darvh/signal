@@ -17,6 +17,24 @@ Use either alone when that is enough. `/signal [depth] [protocol]` supports
 `quick`, `standard`, and `rigorous` work plus `audit`, `debt`, `recommend`,
 `brownfield`, `greenfield`, and `heal` protocols.
 
+## Install
+
+### macOS, Linux, or WSL
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
+```
+
+### Windows
+
+```powershell
+irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
+```
+
+Useful flags: `--local`, `--targets <agents>`, `--skills <signal|clarity|both>`,
+`--force`, and `--dry-run`. See [install.sh](install.sh) and
+[install.ps1](install.ps1).
+
 ## Signal fragments
 
 Load only the fragment needed:
@@ -52,23 +70,5 @@ Portable tests include YAGNI, DRY, KISS, POLA, least privilege, idempotence,
 fail-fast behavior, separation of concerns, reversibility, and feedback. They
 are heuristics, not excuses to remove safety, accessibility, validation,
 privacy, recovery, or explicit requirements.
-
-## Install
-
-### macOS, Linux, or WSL
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
-```
-
-### Windows
-
-```powershell
-irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
-```
-
-Useful flags: `--local`, `--targets <agents>`, `--skills <signal|clarity|both>`,
-`--force`, and `--dry-run`. See [install.sh](install.sh) and
-[install.ps1](install.ps1).
 
 See [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) for sources and influences.
