@@ -98,7 +98,12 @@ foreach ($t in $Targets) {
     if ($dry -and $st -eq "installed") { $st = "installed (dry-run)" }
     Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $st, $dst)
   }
-  # slash commands: project scope in local mode, user scope otherwise
+  # slash commands: real only where the agent has a native mechanism
+  # (opencode/claude-code commands); explicitly n/a elsewhere.
+  if (-not $t.UserCmds) {
+    Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, "commands", "n/a", "(no native command mechanism)")
+    continue
+  }
   if ($t.UserCmds) {
     $cdir = if ($mode -eq "local") { Join-Path $here $t.ProjectCmds } else { $t.UserCmds }
     if (-not $dry) { New-Item -ItemType Directory -Force -Path $cdir | Out-Null }
