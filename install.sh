@@ -6,22 +6,34 @@
 #   bash install.sh [--local] [--targets <agents>] [--skills signal|clarity|both]
 #                   [--force] [--dry-run]
 #
-# User scope: absent agent dirs are reported (agent-miss), never created.
-# Project scope (--local): <repo>/.<agent>/skills, created. Installs are
-# symlinks: edits to this repo apply live. Slash commands are added where
-# supported (opencode, claude-code).
+# Runs from a checkout, or piped: the repo is cloned into a temp dir first, so
+# symlinks never point at the caller's directory. User scope: absent agent
+# dirs are reported (agent-miss), never created. Project scope (--local):
+# skills and slash commands go into the project dirs. Installs are symlinks.
 set -euo pipefail
 
-HERE="$(cd "$(dirname "$0")" && pwd)"
+# Locate the distribution: a real checkout (via $0) or pipe/remote (clone).
+HERE=""
+source_path="${BASH_SOURCE[0]:-}"
+if [ -n "$source_path" ]; then
+  HERE="$(cd "$(dirname "$source_path")" 2>/dev/null && pwd)" || HERE=""
+fi
+if [ -z "$HERE" ] || [ ! -d "$HERE/signal" ] || [ ! -f "$HERE/install.sh" ]; then
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  git clone --depth 1 https://github.com/darvh/signal.git "$tmp/signal" >/dev/null 2>&1 || { echo "signal: clone failed (need git)" >&2; exit 1; }
+  HERE="$tmp/signal"
+fi
+
 SKILLS=(signal clarity)
 
-# agent|userSkills|projectSkills|userCommands
-targets="opencode|~/.config/opencode/skills|.opencode/skills|~/.config/opencode/commands
-claude-code|~/.claude/skills|.claude/skills|~/.claude/commands
-codex|~/.codex/skills|.codex/skills|
-cursor|~/.cursor/skills|.cursor/skills|
-copilot|~/.agents/skills|.agents/skills|
-antigravity|~/.agents/skills|.agents/skills|"
+# agent|userSkills|projectSkills|userCommands|projectCommands
+targets="opencode|~/.config/opencode/skills|.opencode/skills|~/.config/opencode/commands|.opencode/commands
+claude-code|~/.claude/skills|.claude/skills|~/.claude/commands|.claude/commands
+codex|~/.codex/skills|.codex/skills||
+cursor|~/.cursor/skills|.cursor/skills||
+copilot|~/.agents/skills|.agents/skills||
+antigravity|~/.agents/skills|.agents/skills||"
 
 mode=global
 only=()
@@ -59,12 +71,12 @@ description: Activate the Clarity skill — compact technical English.
 Use the Clarity skill when communicating: lead with the answer, decision, or next action; remove filler, repetition, and needless jargon; preserve negation, conditions, uncertainty, and safety detail. Compact, natural English.'
 
 echo "signal install (skills: ${pick[*]}, scope: $mode${only[*]:+, targets: ${only[*]}})"
-while IFS='|' read -r name user_skills proj_skills user_cmds; do
+while IFS='|' read -r name user_skills proj_skills user_cmds proj_cmds; do
   [[ -n "$name" ]] || continue
   if ((${#only[@]})) && ! printf '%s\n' "${only[@]}" | grep -qx "$name"; then continue; fi
   if [[ $mode == local ]]; then
     dir="$HERE/$proj_skills"
-    mkdir -p "$dir"
+    ((!dry)) && mkdir -p "$dir"
   else
     dir="${user_skills/#\~/$HOME}"
     if [[ ! -d "$dir" ]]; then
@@ -94,6 +106,7 @@ while IFS='|' read -r name user_skills proj_skills user_cmds; do
   done
   if [[ -n "$user_cmds" ]]; then
     cdir="${user_cmds/#\~/$HOME}"
+    [[ $mode == local ]] && cdir="$HERE/$proj_cmds"
     ((!dry)) && mkdir -p "$cdir"
     for s in "${pick[@]}"; do
       cdst="$cdir/$s.md"

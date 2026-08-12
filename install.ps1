@@ -5,18 +5,20 @@
 #   powershell -File install.ps1 [-Local] [-Targets a,b] [-Skills signal|clarity|both]
 #                                 [-Force] [-DryRun]
 #
-# Mirrors install.sh: same agents, same flags, same behavior.
+# Mirrors install.sh: same agents, same flags, same behavior. Flags accept
+# -Local, --local and -local (PowerShell + shell styles).
 $ErrorActionPreference = "Stop"
 
 $SKILLS = @("signal", "clarity")
 
+# name | userSkills | projectSkills | userCmds | projectCmds
 $Targets = @(
-  @{ Name = "opencode";     UserSkills = "$HOME\.config\opencode\skills";  ProjectSkills = ".opencode\skills";  UserCmds = "$HOME\.config\opencode\commands" },
-  @{ Name = "claude-code";  UserSkills = "$HOME\.claude\skills";           ProjectSkills = ".claude\skills";     UserCmds = "$HOME\.claude\commands" },
-  @{ Name = "codex";        UserSkills = "$HOME\.codex\skills";            ProjectSkills = ".codex\skills";      UserCmds = $null },
-  @{ Name = "cursor";       UserSkills = "$HOME\.cursor\skills";           ProjectSkills = ".cursor\skills";     UserCmds = $null },
-  @{ Name = "copilot";      UserSkills = "$HOME\.agents\skills";           ProjectSkills = ".agents\skills";     UserCmds = $null },
-  @{ Name = "antigravity";  UserSkills = "$HOME\.agents\skills";           ProjectSkills = ".agents\skills";     UserCmds = $null }
+  @{ Name = "opencode";    UserSkills = "$HOME\.config\opencode\skills"; ProjectSkills = ".opencode\skills"; UserCmds = "$HOME\.config\opencode\commands"; ProjectCmds = ".opencode\commands" },
+  @{ Name = "claude-code"; UserSkills = "$HOME\.claude\skills";          ProjectSkills = ".claude\skills";    UserCmds = "$HOME\.claude\commands";         ProjectCmds = ".claude\commands" },
+  @{ Name = "codex";       UserSkills = "$HOME\.codex\skills";           ProjectSkills = ".codex\skills";     UserCmds = $null; ProjectCmds = $null },
+  @{ Name = "cursor";      UserSkills = "$HOME\.cursor\skills";          ProjectSkills = ".cursor\skills";    UserCmds = $null; ProjectCmds = $null },
+  @{ Name = "copilot";     UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null },
+  @{ Name = "antigravity"; UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null }
 )
 
 $CmdSignal = @"
@@ -36,17 +38,19 @@ Use the Clarity skill when communicating: lead with the answer, decision, or nex
 
 $mode = "global"; $only = @(); $pick = @(); $force = $false; $dry = $false
 for ($i = 0; $i -lt $args.Count; $i++) {
-  switch ($args[$i]) {
-    "--local" { $mode = "local" }
-    "--targets" { $only = $args[++$i] -split "," | ForEach-Object { $_.Trim() } }
-    "--skills" {
+  # PowerShell-friendly flags: -Local / --local / -local all accepted.
+  $flag = ($args[$i] -replace "^[-]+", "").ToLower()
+  switch ($flag) {
+    "local" { $mode = "local" }
+    "targets" { $only = $args[++$i] -split "," | ForEach-Object { $_.Trim() } }
+    "skills" {
       $v = $args[++$i].Trim()
       if ($v -in @("both", "all", "signal+clarity")) { $pick = $SKILLS }
       elseif ($v -in $SKILLS) { $pick = @($v) }
       else { Write-Error "unknown skill: $v (use one of: signal, clarity, both)"; exit 2 }
     }
-    "--force" { $force = $true }
-    "--dry-run" { $dry = $true }
+    "force" { $force = $true }
+    "dry-run" { $dry = $true }
     default { Write-Error "unknown option: $($args[$i])"; exit 2 }
   }
 }
@@ -65,23 +69,26 @@ if (-not $here -or -not (Test-Path "$here\signal\SKILL.md")) {
 Write-Host "signal install (skills: $($pick -join ' '), scope: $mode$($(if ($only.Count) { ", targets: $($only -join ',')" })))"
 foreach ($t in $Targets) {
   if ($only.Count -and $t.Name -notin $only) { continue }
-  if ($mode -eq "local") { $dir = Join-Path $here $t.ProjectSkills; New-Item -ItemType Directory -Force -Path $dir | Out-Null }
-  else {
+  if ($mode -eq "local") {
+    $dir = Join-Path $here $t.ProjectSkills
+    if (-not $dry) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+  } else {
     $dir = $t.UserSkills
-    if (-not (Test-Path $dir)) { Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, "skill", "agent-miss", $dir); continue }
+    if (-not (Test-Path $dir)) {
+      Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, "skill", "agent-miss", $dir)
+      continue
+    }
   }
   foreach ($s in $pick) {
     $dst = Join-Path $dir $s; $src = Join-Path $here $s
     $st = "installed"
     $link = Get-Item $dst -ErrorAction SilentlyContinue
     if ($link -and $link.LinkType) {
-      if ((Get-Item $dst).Target -eq $src) { $st = "up-to-date" }
-      else { $st = "conflict" }
-    } elseif ($link) {
-      $st = "conflict"
-    }
+      $st = if ((Get-Item $dst).Target -eq $src) { "up-to-date" } else { "conflict" }
+    } elseif ($link) { $st = "conflict" }
     if ($st -eq "conflict" -and -not $force) {
-      Write-Host ("  {0,-12} {1,-8} {2,-10} {3} (use --force)" -f $t.Name, $s, "conflict", $dst); continue
+      Write-Host ("  {0,-12} {1,-8} {2,-10} {3} (use -Force)" -f $t.Name, $s, "conflict", $dst)
+      continue
     }
     if ($st -eq "conflict") { $st = "updated" }
     if (-not $dry) {
@@ -91,15 +98,22 @@ foreach ($t in $Targets) {
     if ($dry -and $st -eq "installed") { $st = "installed (dry-run)" }
     Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $st, $dst)
   }
+  # slash commands: project scope in local mode, user scope otherwise
   if ($t.UserCmds) {
-    if (-not $dry) { New-Item -ItemType Directory -Force -Path $t.UserCmds | Out-Null }
+    $cdir = if ($mode -eq "local") { Join-Path $here $t.ProjectCmds } else { $t.UserCmds }
+    if (-not $dry) { New-Item -ItemType Directory -Force -Path $cdir | Out-Null }
     foreach ($s in $pick) {
-      $cdst = Join-Path $t.UserCmds "$s.md"
+      $cdst = Join-Path $cdir "$s.md"
       if ((Test-Path $cdst) -and -not $force) {
-        Write-Host ("  {0,-12} {1,-8} {2,-10} {3} (use --force)" -f $t.Name, $s, "conflict", $cdst); continue
+        Write-Host ("  {0,-12} {1,-8} {2,-10} {3} (use -Force)" -f $t.Name, $s, "conflict", $cdst)
+        continue
       }
-      if (-not $dry) { Set-Content -Path $cdst -Value (Get-Variable "Cmd$($s.Substring(0,1).ToUpper())$($s.Substring(1))" -ValueOnly) }
-      Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, "command", $cdst)
+      if (-not $dry) {
+        $var = Get-Variable ("Cmd" + $s.Substring(0, 1).ToUpper() + $s.Substring(1)) -ValueOnly
+        Set-Content -Path $cdst -Value $var
+      }
+      $st2 = if ($dry) { "command (dry-run)" } else { "command" }
+      Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $st2, $cdst)
     }
   }
 }
