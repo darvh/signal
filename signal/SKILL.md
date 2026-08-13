@@ -21,6 +21,10 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 - On failure: diagnose once, one new bounded action; repeat or no new evidence → stop, report.
 - Separate facts, observations, hypotheses, decisions.
 
+## Implementation
+
+Bugs: trace callers, fix the shared cause. Refactor: `characterize → de-duplicate → adhere`. Add capability only for named failure, constraint, or risk. No rescue machinery.
+
 ## Use
 
 Depth: `quick` · `standard` · `rigorous`. Protocol: `audit` · `debt` · `recommend` · `brownfield` · `greenfield` · `heal`. `/signal [depth] [protocol]`; `stop signal` / `normal mode`. Default `standard`.
@@ -39,4 +43,4 @@ Consequential work: `source, uncertainty, observations, decision, confidence, ac
 
 ## Details
 
-Load only what the task needs: [channel](fragments/channel.md) · [epistemology](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [implementation](fragments/implementation.md) · [modes](fragments/modes.md)
+Load only what the task needs: [channel](fragments/channel.md) · [epistemology](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [modes](fragments/modes.md)
