@@ -1,75 +1,58 @@
 ---
 name: signal
-description: "Agent efficacy with efficiency: reduce uncertainty, gather evidence, take bounded action, and verify outcomes. Use when implementing, fixing bugs, debugging, or making changes where correctness matters."
+description: "Agent efficacy with efficiency: reduce uncertainty, gather evidence, take bounded action, verify outcomes. Use when implementing, fixing bugs, debugging, or making changes where correctness matters."
 ---
 
 # Signal
 
-## Operating rule
+## Operate
 
-**Observe, act, verify.** Check preconditions first. If invalid, stop. Take the smallest safe action. Run the cheapest target check. If it passes, stop. If it fails, diagnose once and recover once. Repeat failure or no new evidence: stop and report. Do not broaden scope after decisive evidence.
+1. Check preconditions (scope, access, inputs, safety). Invalid → stop, report.
+2. Name the uncertainty and the stop condition.
+3. Remove unnecessary work; reuse exact solutions; prefer standard capability.
+4. Take the smallest bounded change. Define its success signal.
+5. Run the cheapest falsifying check — one that fails if you are wrong.
+6. Evidence decides → stop. Record limits, recovery, feedback.
+
+## Discipline
+
+- Verify once at the decision point. A check that changes no decision is wasted — stop; do not re-verify.
+- Before chasing a failing check, prove it is not pre-existing (compare before/after). If pre-existing, note and move on.
+- On failure: diagnose once, take one new bounded action. Repeat failure or no new evidence: stop, report.
+- Separate facts, observations, hypotheses, decisions. Ask what would falsify the claim. Confidence is not evidence.
 
 ## Use
 
-Choose one depth and, if needed, one protocol:
-
-- Depth: `quick` (act; name one uncertainty), `standard` (apply Signal), `rigorous` (challenge the premise; require stronger evidence).
+- Depth: `quick` (act; name one uncertainty), `standard` (apply Signal), `rigorous` (challenge the premise).
 - Protocol: `audit`, `debt`, `recommend`, `brownfield`, `greenfield`, `heal`.
 - Commands: `/signal [depth] [protocol]`; `stop signal` / `normal mode`.
-
-Default: `standard`; no protocol means general Signal.
-
-## Workflow
-
-1. State source, destination, decision, owner, and stop condition.
-2. Name uncertainty and noise.
-3. Check scope, access, inputs, and safety. If invalid, stop.
-4. Remove unnecessary work. Reuse exact solutions. Prefer standard/native capability.
-5. Make the smallest bounded change. Define its success signal.
-6. Run the cheapest falsifying check.
-7. If evidence decides, stop. Record limits, recovery, and feedback.
-
-Separate facts, observations, hypotheses, and decisions. Ask what would falsify the claim, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure change against a baseline. Use known deterministic rules; label interpretation.
+- Default `standard`; no protocol = general Signal.
 
 ## Communication
 
-Use simple, direct technical English inspired by ASD-STE100. Remove filler, repetition, jargon, and routine narration.
-
-## Verify
-
-Verify once at the decision point. Prefer a falsifying check over a reread. It must catch the original fault; run it against the faulty state. Stop when evidence decides; repeated checks add no evidence.
+Simple, direct technical English (ASD-STE100). Remove filler, repetition, jargon, narration.
 
 ## Guardrails
 
-Use YAGNI, DRY, KISS, POLA, least privilege, idempotence, fail-fast behavior, and separation of concerns as tests, not laws. Simplicity must retain safety, accessibility, validation, privacy, recovery, and explicit requirements.
+YAGNI, DRY, KISS, POLA, least privilege, idempotence, fail-fast, separation of concerns — tests, not laws. Keep safety, accessibility, validation, privacy, recovery, explicit requirements.
 
 ## Packet
 
-For consequential work, omit fields that do not apply:
+For consequential work; omit what does not apply:
 
 ```yaml
 source:
-destination:
 uncertainty:
 observations:
-noise:
 decision:
 confidence:
 action:
 verification:
 limits:
-recovery:
 ```
 
 ## Details
 
 Load only what the task needs:
 
-- [channel](fragments/channel.md): Shannon model, noise, and redundancy.
-- [epistemology](fragments/epistemology.md): claims and falsification.
-- [verification](fragments/verification.md): precision and measurement.
-- [recovery](fragments/recovery.md): trust and reversibility.
-- [implementation](fragments/implementation.md): execution gates.
-- [modes](fragments/modes.md): protocol details.
-
-
+- [channel](fragments/channel.md) · [epistemology](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [implementation](fragments/implementation.md) · [modes](fragments/modes.md)
