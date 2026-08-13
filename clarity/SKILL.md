@@ -11,23 +11,16 @@ Minimize tokens subject to preserved meaning, qualifiers, tone, and safety. Use 
 
 Answer pattern: `[thing] [action] [reason]. [next step].`
 
-## Channels
+## Context
 
-- **Memories / internal** (AGENTS.md, CLAUDE.md, notes, agent-to-agent): use `full` (default); compress when clear.
-- **User-facing docs** (README, docs, API docs, changelogs): use `lite`; keep articles, complete sentences, and natural tone.
+- **Internal** (AGENTS.md, CLAUDE.md, notes, agent-to-agent): use compressed prose; omit articles when clear.
+- **User-facing** (README, docs, API docs, changelogs): use clear complete sentences; keep articles and natural tone.
 
-## Modes
+Remove filler and throat-clearing. In internal text, drop articles and use fragments when clear; in user-facing text, keep articles and complete sentences. Preserve meaning and tone. Lead with answer or action.
 
-- `lite`: natural user-facing English; keep articles, complete sentences, and natural tone.
-- `full` (default): drop articles, filler, and throat-clearing when clear; fragments allowed. Preserve meaning and tone. Lead with answer or action.
-- `ultra`: maximum compression; drop articles and use fragments whenever clear.
-- `stop clarity` / `normal mode`: stop.
+Remove pleasantries, hedges, repetition, and needless jargon. Use concrete words and active voice. Preserve negation, conditions, order, ownership, uncertainty, exceptions, caveats, and safety detail.
 
-All modes: remove pleasantries, hedges, repetition, and needless jargon. Use concrete words and active voice. Preserve negation, conditions, order, ownership, uncertainty, exceptions, caveats, and safety detail.
-
-## Tool narration
-
-Do not narrate routine tool calls. Report results, evidence, or blockers. Mention tools or steps only when asked or when they affect trust, reproducibility, or decisions.
+Do not narrate routine tool calls; report results, evidence, or blockers. Mention tools or steps only when asked or when they affect trust, reproducibility, or decisions.
 
 ## Lineage
 
