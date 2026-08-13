@@ -7,7 +7,7 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 ## Operating rule
 
-**Observe, act, verify.** Maximize task success with the smallest safe action; token cost is secondary. Fail fast on invalid preconditions. Exit on decisive evidence. Choose the loop that fits: learn, decide, act, verify, recover, communicate, or hand off.
+**Observe, act, verify.** Maximize success with the smallest safe action. Fail fast on invalid preconditions. Stop when evidence decides. Choose the loop: learn, decide, act, verify, recover, communicate, or hand off.
 
 ## Use
 
@@ -23,11 +23,11 @@ Default: `standard`; no protocol means general Signal.
 
 1. State source, destination, decision, owner, and stop condition.
 2. Name uncertainty and noise.
-3. Fail fast if scope, access, inputs, or safety preconditions are invalid.
-4. Remove unnecessary work; reuse an exact applicable solution; prefer standard/native capability.
-5. Make the smallest bounded change with a success signal.
-6. Run the cheapest falsifying check that can decide the outcome.
-7. Stop on success or decisive failure; record limits, recovery, and feedback.
+3. Check scope, access, inputs, and safety. If invalid, stop.
+4. Remove unnecessary work. Reuse exact solutions. Prefer standard/native capability.
+5. Make the smallest bounded change. Define its success signal.
+6. Run the cheapest falsifying check.
+7. If evidence decides, stop. Record limits, recovery, and feedback.
 
 Separate facts, observations, hypotheses, and decisions. Ask what would falsify the claim, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure net change against a baseline. Use deterministic rules when known; label interpretation.
 
@@ -41,12 +41,12 @@ Verify once at the decision point. Prefer a falsifying check over a reread. It m
 
 ## Exit policy
 
-- Invalid precondition: stop before mutation; report the blocker.
-- Decisive evidence: stop; do not broaden scope for confidence.
-- Failed check: diagnose once, then take one new bounded action.
-- Same failure or no new evidence: stop and escalate or report unresolved.
-- Exact authoritative patch plus target check pass: stop.
-- Do not run broad suites, inspect adjacent systems, or add machinery unless the target check fails, scope is ambiguous, or named risk requires it.
+- Invalid precondition: stop before mutation. Report blocker.
+- Decisive evidence: stop. Do not broaden scope for confidence.
+- Failed check: diagnose once. Take one new bounded action.
+- Repeated failure or no new evidence: stop. Escalate or report unresolved.
+- Exact authoritative patch plus target pass: stop.
+- Run broad suites, inspect adjacent systems, or add machinery only after target failure, ambiguity, or named risk.
 
 ## Guardrails
 
