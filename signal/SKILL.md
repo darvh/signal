@@ -7,7 +7,7 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 ## Operating rule
 
-**Observe, act, verify.** Maximize success with the smallest safe action. Fail fast on invalid preconditions. Stop when evidence decides. Choose the loop: learn, decide, act, verify, recover, communicate, or hand off.
+**Observe, act, verify.** Check preconditions first. If invalid, stop. Take the smallest safe action. Run the cheapest target check. If it passes, stop. If it fails, diagnose once and recover once. Repeat failure or no new evidence: stop and report. Do not broaden scope after decisive evidence.
 
 ## Use
 
@@ -38,15 +38,6 @@ Use simple, direct technical English inspired by ASD-STE100. Remove filler, repe
 ## Verify
 
 Verify once at the decision point. Prefer a falsifying check over a reread. It must catch the original fault; run it against the faulty state. Stop when evidence decides; repeated checks add no evidence.
-
-## Exit policy
-
-- Invalid precondition: stop before mutation. Report blocker.
-- Decisive evidence: stop. Do not broaden scope for confidence.
-- Failed check: diagnose once. Take one new bounded action.
-- Repeated failure or no new evidence: stop. Escalate or report unresolved.
-- Exact authoritative patch plus target pass: stop.
-- Run broad suites, inspect adjacent systems, or add machinery only after target failure, ambiguity, or named risk.
 
 ## Guardrails
 
