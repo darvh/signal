@@ -14,7 +14,7 @@ Before mutation, check scope, access, inputs, and safety. If invalid, stop. Repo
 4. Take one small test action.
 5. Add minimum durable solution.
 
-Stop at first working rung. Exact authoritative patch plus matching base: apply it. Do not recreate it. Run target check once. Pass means exit.
+Stop at first working rung. Run the target check once. Pass means exit.
 
 For bugs, trace callers and fix the shared cause. Before refactoring:
 `characterize → de-duplicate → adhere`.
