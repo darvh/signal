@@ -1,15 +1,15 @@
-# Signal + Clarity skill installer — self-contained, agent-agnostic.
+# Signal skill installer — self-contained, agent-agnostic.
 # No dependencies (no node). Windows.
 #
 #   irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
-#   powershell -File install.ps1 [-Local] [-Targets a,b] [-Skills signal|clarity|both]
+#   powershell -File install.ps1 [-Local] [-Targets a,b] [-Skills signal]
 #                                 [-Force] [-DryRun]
 #
 # Mirrors install.sh: same agents, same flags, same behavior. Flags accept
 # -Local, --local and -local (PowerShell + shell styles).
 $ErrorActionPreference = "Stop"
 
-$SKILLS = @("signal", "clarity")
+$SKILLS = @("signal")
 
 # name | userSkills | projectSkills | userCmds | projectCmds
 $Targets = @(
@@ -28,14 +28,6 @@ description: Activate the Signal skill — reduce uncertainty, gather evidence, 
 
 Use the Signal skill before working: reduce uncertainty before acting (read the code, check assumptions); gather decision-changing evidence (run tests, probe edge inputs); act within bounds; verify your change before claiming done; recover when something fails. Never claim completion without verifying it yourself.
 "@
-$CmdClarity = @"
----
-description: Activate the Clarity skill — compact technical English.
----
-
-Use the Clarity skill when communicating: lead with the answer, decision, or next action; remove filler, repetition, and needless jargon; preserve negation, conditions, uncertainty, and safety detail. Compact, natural English.
-"@
-
 $mode = "global"; $only = @(); $pick = @(); $force = $false; $dry = $false
 for ($i = 0; $i -lt $args.Count; $i++) {
   # PowerShell-friendly flags: -Local / --local / -local all accepted.
@@ -45,9 +37,8 @@ for ($i = 0; $i -lt $args.Count; $i++) {
     "targets" { $only = $args[++$i] -split "," | ForEach-Object { $_.Trim() } }
     "skills" {
       $v = $args[++$i].Trim()
-      if ($v -in @("both", "all", "signal+clarity")) { $pick = $SKILLS }
-      elseif ($v -in $SKILLS) { $pick = @($v) }
-      else { Write-Error "unknown skill: $v (use one of: signal, clarity, both)"; exit 2 }
+      if ($v -eq "signal") { $pick = @("signal") }
+      else { Write-Error "unknown skill: $v (use: signal)"; exit 2 }
     }
     "force" { $force = $true }
     "dry-run" { $dry = $true }

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Signal + Clarity skill installer — self-contained, agent-agnostic.
+# Signal skill installer — self-contained, agent-agnostic.
 # No dependencies (no node). macOS / Linux / WSL.
 #
 #   curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
-#   bash install.sh [--local] [--targets <agents>] [--skills signal|clarity|both]
+#   bash install.sh [--local] [--targets <agents>] [--skills signal]
 #                   [--force] [--dry-run]
 #
 # Runs from a checkout, or piped: the repo is cloned into a temp dir first, so
@@ -25,7 +25,7 @@ if [ -z "$HERE" ] || [ ! -d "$HERE/signal" ] || [ ! -f "$HERE/install.sh" ]; the
   HERE="$tmp/signal"
 fi
 
-SKILLS=(signal clarity)
+SKILLS=(signal)
 
 # agent|userSkills|projectSkills|userCommands|projectCommands
 targets="opencode|~/.config/opencode/skills|.opencode/skills|~/.config/opencode/commands|.opencode/commands
@@ -46,9 +46,8 @@ while [[ $# -gt 0 ]]; do
     --targets) IFS=',' read -r -a only <<< "$2"; shift ;;
     --skills)
       case "$2" in
-        both|all|signal+clarity) pick=("${SKILLS[@]}") ;;
-        signal|clarity) pick=("$2") ;;
-        *) echo "unknown skill: $2 (use one of: signal, clarity, both)" >&2; exit 2 ;;
+        signal) pick=(signal) ;;
+        *) echo "unknown skill: $2 (use: signal)" >&2; exit 2 ;;
       esac
       shift ;;
     --force) force=1 ;;
@@ -64,12 +63,6 @@ description: Activate the Signal skill — reduce uncertainty, gather evidence, 
 ---
 
 Use the Signal skill before working: reduce uncertainty before acting (read the code, check assumptions); gather decision-changing evidence (run tests, probe edge inputs); act within bounds; verify your change before claiming done; recover when something fails. Never claim completion without verifying it yourself.'
-cmd_content_clarity='---
-description: Activate the Clarity skill — compact technical English.
----
-
-Use the Clarity skill when communicating: lead with the answer, decision, or next action; remove filler, repetition, and needless jargon; preserve negation, conditions, uncertainty, and safety detail. Compact, natural English.'
-
 echo "signal install (skills: ${pick[*]}, scope: $mode${only[*]:+, targets: ${only[*]}})"
 while IFS='|' read -r name user_skills proj_skills user_cmds proj_cmds; do
   [[ -n "$name" ]] || continue

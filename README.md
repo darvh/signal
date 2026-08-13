@@ -4,16 +4,10 @@ Small, composable skills for more efficient and effective agent work.
 
 ## Skills
 
-- [Signal](signal/SKILL.md) — reduce uncertainty, gather useful evidence, act
+- [Signal](signal/SKILL.md) — reduce uncertainty, communicate clearly, act
   within bounds, verify, and recover.
-- [Clarity](clarity/SKILL.md) — write clear, compact English while preserving
-  conditions, uncertainty, ownership, and safety detail.
 
-Signal improves efficacy. Clarity improves communication. Together:
-
-`Signal → Clarity`
-
-Use either alone when that is enough. `/signal [depth] [protocol]` supports
+Signal combines agent efficacy with efficient communication. `/signal [depth] [protocol]` supports
 `quick`, `standard`, and `rigorous` work plus `audit`, `debt`, `recommend`,
 `brownfield`, `greenfield`, and `heal` protocols.
 
@@ -31,7 +25,7 @@ curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
 irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
 ```
 
-Useful flags: `--local`, `--targets <agents>`, `--skills <signal|clarity|both>`,
+Useful flags: `--local`, `--targets <agents>`, `--skills signal`,
 `--force`, and `--dry-run`. See [install.sh](install.sh) and
 [install.ps1](install.ps1).
 
