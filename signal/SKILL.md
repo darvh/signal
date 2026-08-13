@@ -23,9 +23,10 @@ Default: `standard`; no protocol means general Signal.
 
 1. State source, destination, decision, and owner.
 2. Name uncertainty and noise.
-3. Gather the cheapest evidence that can change the decision.
-4. Take the smallest bounded action with a success signal.
-5. Verify once; record limits, recovery, and feedback.
+3. Remove unnecessary work; reuse an exact applicable solution; prefer standard/native capability.
+4. Make the smallest bounded change with a success signal.
+5. Run one falsifying check; record limits, recovery, and feedback.
+6. Gather the cheapest evidence that can change the decision.
 
 Separate facts, observations, hypotheses, and decisions. Ask what would falsify the claim, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure net change against a baseline. Use deterministic rules when known; label interpretation.
 
@@ -35,7 +36,7 @@ Use simple, direct technical English inspired by ASD-STE100. Remove filler, repe
 
 ## Verify
 
-Verify once at the decision point. Prefer a falsifying check over a reread. It must catch the original fault; run it against the faulty state. Stop when evidence decides; repetition adds none.
+Verify once at the decision point. Prefer a falsifying check over a reread. It must catch the original fault; run it against the faulty state. Stop when evidence decides; repeated checks add no evidence.
 
 ## Guardrails
 

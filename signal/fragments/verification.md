@@ -1,6 +1,6 @@
 # Verification
 
-Stop at the first sufficient rung:
+Stop at the first sufficient rung; expand only after failure, ambiguity, or named risk:
 
 1. Paths, state, lexical match.
 2. Syntax, declarations, calls, tests.
