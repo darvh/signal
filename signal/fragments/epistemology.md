@@ -11,13 +11,4 @@ For each load-bearing claim, ask:
 
 Separate facts, observations, hypotheses, and decisions. Confidence is not evidence. Models are maps; source and runtime are territory. A proposal is not an implementation. An experiment is not a result. Seek disconfirming evidence first. Prefer a small honest result to a broad unsupported claim.
 
-For consequential work, record:
-
-```yaml
-question:
-setup:
-observations:
-result:
-limitations:
-next_step:
-```
+For consequential work, record the Signal packet (question→uncertainty, setup→action, result→verification, next_step→recovery).

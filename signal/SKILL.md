@@ -72,6 +72,4 @@ Load only what the task needs:
 - [implementation](fragments/implementation.md): execution gates.
 - [modes](fragments/modes.md): protocol details.
 
-## Boundaries
 
-Never simplify away security, accessibility, validation, error handling, privacy, recovery, data protection, or explicit requirements. Claim healing only with a trusted signal and verified recovery.
