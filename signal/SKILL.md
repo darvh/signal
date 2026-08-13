@@ -29,11 +29,11 @@ Default: `standard`; no protocol means general Signal.
 6. Run the cheapest falsifying check.
 7. If evidence decides, stop. Record limits, recovery, and feedback.
 
-Separate facts, observations, hypotheses, and decisions. Ask what would falsify the claim, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure net change against a baseline. Use deterministic rules when known; label interpretation.
+Separate facts, observations, hypotheses, and decisions. Ask what would falsify the claim, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure change against a baseline. Use known deterministic rules; label interpretation.
 
 ## Communication
 
-Use simple, direct technical English inspired by ASD-STE100. Remove filler, repetition, jargon, and routine tool narration.
+Use simple, direct technical English inspired by ASD-STE100. Remove filler, repetition, jargon, and routine narration.
 
 ## Verify
 
