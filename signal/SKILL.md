@@ -23,7 +23,7 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 ## Implementation
 
-Bugs: trace callers, fix the shared cause. Refactor: `characterize → de-duplicate → adhere`. Add capability only for named failure, constraint, or risk. No rescue machinery.
+Ladder: name success signal → inspect existing/reuse → standard capability → one small test action → minimum solution. Stop at first working rung. Bugs: trace callers, fix the shared cause. Refactor: `characterize → de-duplicate → adhere`. Add capability only for named failure, constraint, or risk. No rescue machinery.
 
 ## Use
 
