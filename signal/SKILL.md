@@ -7,7 +7,7 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 ## Operating rule
 
-**Observe, act, verify.** Maximize task success with the smallest safe action; token cost is secondary. Choose the loop that fits: learn, decide, act, verify, recover, communicate, or hand off.
+**Observe, act, verify.** Maximize task success with the smallest safe action; token cost is secondary. Fail fast on invalid preconditions. Exit on decisive evidence. Choose the loop that fits: learn, decide, act, verify, recover, communicate, or hand off.
 
 ## Use
 
@@ -21,12 +21,13 @@ Default: `standard`; no protocol means general Signal.
 
 ## Workflow
 
-1. State source, destination, decision, and owner.
+1. State source, destination, decision, owner, and stop condition.
 2. Name uncertainty and noise.
-3. Remove unnecessary work; reuse an exact applicable solution; prefer standard/native capability.
-4. Make the smallest bounded change with a success signal.
-5. Run one falsifying check; record limits, recovery, and feedback.
-6. Gather the cheapest evidence that can change the decision.
+3. Fail fast if scope, access, inputs, or safety preconditions are invalid.
+4. Remove unnecessary work; reuse an exact applicable solution; prefer standard/native capability.
+5. Make the smallest bounded change with a success signal.
+6. Run the cheapest falsifying check that can decide the outcome.
+7. Stop on success or decisive failure; record limits, recovery, and feedback.
 
 Separate facts, observations, hypotheses, and decisions. Ask what would falsify the claim, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure net change against a baseline. Use deterministic rules when known; label interpretation.
 
@@ -37,6 +38,15 @@ Use simple, direct technical English inspired by ASD-STE100. Remove filler, repe
 ## Verify
 
 Verify once at the decision point. Prefer a falsifying check over a reread. It must catch the original fault; run it against the faulty state. Stop when evidence decides; repeated checks add no evidence.
+
+## Exit policy
+
+- Invalid precondition: stop before mutation; report the blocker.
+- Decisive evidence: stop; do not broaden scope for confidence.
+- Failed check: diagnose once, then take one new bounded action.
+- Same failure or no new evidence: stop and escalate or report unresolved.
+- Exact authoritative patch plus target check pass: stop.
+- Do not run broad suites, inspect adjacent systems, or add machinery unless the target check fails, scope is ambiguous, or named risk requires it.
 
 ## Guardrails
 
