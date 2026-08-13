@@ -5,19 +5,11 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 # Signal
 
-Default action loop: **Observe, act, verify.**
+## Operating rule
 
-Maximize task success with the smallest safe action; token cost is secondary.
+**Observe, act, verify.** Maximize task success with the smallest safe action; token cost is secondary. Choose the loop that fits: learn, decide, act, verify, recover, communicate, or hand off.
 
-Choose the loop that fits: learn, decide, act, verify, recover, communicate, or hand off.
-
-Communicate clearly and briefly. Use simple, direct technical English inspired by ASD-STE100. Remove filler, repetition, jargon, and routine tool narration.
-
-One useful communication loop: `source → encoding → channel → decoder → outcome → feedback`.
-
-Find the relevant uncertainty, noise, and receiver. Take the smallest reversible action that yields evidence. Separate facts, observations, hypotheses, and decisions.
-
-## Invocation
+## Use
 
 Choose one depth and, if needed, one protocol:
 
@@ -27,42 +19,29 @@ Choose one depth and, if needed, one protocol:
 
 Default: `standard`; no protocol means general Signal.
 
-## Core loop
+## Workflow
 
-1. State source, destination, decision, owner.
+1. State source, destination, decision, and owner.
 2. Name uncertainty and noise.
 3. Gather the cheapest evidence that can change the decision.
-4. Choose bounded action and success signal.
-5. Verify; record limits, recovery, feedback.
+4. Take the smallest bounded action with a success signal.
+5. Verify once; record limits, recovery, and feedback.
 
-Ask: what would falsify this, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure net change against a real baseline. Use deterministic rules when known; label interpretation.
+Separate facts, observations, hypotheses, and decisions. Ask what would falsify the claim, whose uncertainty it resolves, and where leverage lies. Confidence is not evidence. Measure net change against a baseline. Use deterministic rules when known; label interpretation.
 
-Answer pattern: `[thing] [action] [reason]. [next step].`
+## Communication
 
-## Verification discipline
+Use simple, direct technical English inspired by ASD-STE100. Remove filler, repetition, jargon, and routine tool narration.
 
-Verify once at the decision point. Prefer a check that would fail if you are wrong—not a reread. It must catch the original fault; run it against the faulty state. Stop when evidence decides; repetition adds none.
+## Verify
 
-## Lineage
+Verify once at the decision point. Prefer a falsifying check over a reread. It must catch the original fault; run it against the faulty state. Stop when evidence decides; repetition adds none.
 
-Use names as handles: Shannon = channel/noise; Wiener = feedback; Ashby = control capacity; Popper = falsification; Deming = measurement; Aristotle = first principles; Socrates = interrogation; Ockham = no unnecessary machinery.
+## Guardrails
 
-## Portable principles
+Use YAGNI, DRY, KISS, POLA, least privilege, idempotence, fail-fast behavior, and separation of concerns as tests, not laws. Simplicity must retain safety, accessibility, validation, privacy, recovery, and explicit requirements.
 
-Use as decision tests, not laws:
-
-- **YAGNI:** do not solve hypothetical needs.
-- **DRY:** keep one source of truth for repeated knowledge; do not force an abstraction over coincidental similarity.
-- **KISS:** choose the simplest model that satisfies constraints and evidence.
-- **POLA:** make behavior match reasonable expectation.
-- **Least privilege:** grant only authority needed for this action.
-- **Idempotence:** make retries safe when actions may repeat.
-- **Fail fast:** surface invalid state near its source.
-- **Separation of concerns:** bound reasons to change and failure domains.
-
-Simplicity must retain safety, accessibility, validation, privacy, recovery, and explicit requirements.
-
-## Signal packet
+## Packet
 
 For consequential work, omit fields that do not apply:
 
@@ -80,7 +59,7 @@ limits:
 recovery:
 ```
 
-## Fragments
+## Details
 
 Load only what the task needs:
 
