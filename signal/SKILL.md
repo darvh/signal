@@ -8,30 +8,26 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 ## Operate
 
 1. Check preconditions (scope, access, inputs, safety). Invalid → stop, report.
-2. Name the uncertainty and the stop condition.
-3. Remove unnecessary work; reuse exact solutions; prefer standard capability.
-4. Take the smallest bounded change. Define its success signal.
-5. Run the cheapest falsifying check — one that fails if you are wrong.
-6. Evidence decides → stop. Record limits, recovery, feedback.
+2. Name the uncertainty and stop condition.
+3. Reuse exact solutions; prefer standard capability; smallest bounded change with a success signal.
+4. Run the cheapest falsifying check — one that fails if you are wrong.
+5. Evidence decides → stop. Record limits, recovery, feedback.
 
 ## Discipline
 
-- **Question (Socratic).** Before acting, interrogate each load-bearing claim: What is the claim? What is the evidence? What would falsify it? Whose uncertainty does it resolve? Where is leverage? What are the limits? Confidence is not evidence.
-- Verify once at the decision point. A check that changes no decision is wasted — stop; do not re-verify.
-- Before chasing a failing check, prove it is not pre-existing (compare before/after). If pre-existing, note and move on.
-- On failure: diagnose once, take one new bounded action. Repeat failure or no new evidence: stop, report.
-- Separate facts, observations, hypotheses, decisions. Ask what would falsify the claim.
+- **Question (Socratic).** For each load-bearing claim: claim? evidence? what falsifies? whose uncertainty? leverage? limits? Confidence ≠ evidence.
+- Verify once. A check that changes no decision is wasted — stop.
+- Before chasing a failing check, prove it is not pre-existing (compare before/after); if pre-existing, move on.
+- On failure: diagnose once, one new bounded action; repeat or no new evidence → stop, report.
+- Separate facts, observations, hypotheses, decisions.
 
 ## Use
 
-- Depth: `quick` (act; name one uncertainty), `standard` (apply Signal), `rigorous` (challenge the premise).
-- Protocol: `audit`, `debt`, `recommend`, `brownfield`, `greenfield`, `heal`.
-- Commands: `/signal [depth] [protocol]`; `stop signal` / `normal mode`.
-- Default `standard`; no protocol = general Signal.
+Depth: `quick` · `standard` · `rigorous`. Protocol: `audit` · `debt` · `recommend` · `brownfield` · `greenfield` · `heal`. `/signal [depth] [protocol]`; `stop signal` / `normal mode`. Default `standard`.
 
 ## Communication
 
-Simple, direct technical English (ASD-STE100). Remove filler, repetition, jargon, narration.
+Direct technical English (ASD-STE100). No filler, repetition, jargon, narration.
 
 ## Guardrails
 
@@ -39,21 +35,8 @@ YAGNI, DRY, KISS, POLA, least privilege, idempotence, fail-fast, separation of c
 
 ## Packet
 
-For consequential work; omit what does not apply:
-
-```yaml
-source:
-uncertainty:
-observations:
-decision:
-confidence:
-action:
-verification:
-limits:
-```
+Consequential work: `source, uncertainty, observations, decision, confidence, action, verification, limits`.
 
 ## Details
 
-Load only what the task needs:
-
-- [channel](fragments/channel.md) · [epistemology](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [implementation](fragments/implementation.md) · [modes](fragments/modes.md)
+Load only what the task needs: [channel](fragments/channel.md) · [epistemology](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [implementation](fragments/implementation.md) · [modes](fragments/modes.md)
