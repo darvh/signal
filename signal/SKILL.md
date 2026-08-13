@@ -16,10 +16,11 @@ description: "Agent efficacy with efficiency: reduce uncertainty, gather evidenc
 
 ## Discipline
 
+- **Question (Socratic).** Before acting, interrogate each load-bearing claim: What is the claim? What is the evidence? What would falsify it? Whose uncertainty does it resolve? Where is leverage? What are the limits? Confidence is not evidence.
 - Verify once at the decision point. A check that changes no decision is wasted — stop; do not re-verify.
 - Before chasing a failing check, prove it is not pre-existing (compare before/after). If pre-existing, note and move on.
 - On failure: diagnose once, take one new bounded action. Repeat failure or no new evidence: stop, report.
-- Separate facts, observations, hypotheses, decisions. Ask what would falsify the claim. Confidence is not evidence.
+- Separate facts, observations, hypotheses, decisions. Ask what would falsify the claim.
 
 ## Use
 
