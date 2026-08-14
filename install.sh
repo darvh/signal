@@ -33,7 +33,8 @@ claude-code|~/.claude/skills|.claude/skills||
 codex|~/.codex/skills|.codex/skills||
 cursor|~/.cursor/skills|.cursor/skills||
 copilot|~/.agents/skills|.agents/skills||
-antigravity|~/.agents/skills|.agents/skills||"
+antigravity|~/.agents/skills|.agents/skills||
+pi|~/.pi/agent/skills|.pi/skills||"
 
 mode=global
 only=()

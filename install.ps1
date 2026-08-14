@@ -18,7 +18,8 @@ $Targets = @(
   @{ Name = "codex";       UserSkills = "$HOME\.codex\skills";           ProjectSkills = ".codex\skills";     UserCmds = $null; ProjectCmds = $null },
   @{ Name = "cursor";      UserSkills = "$HOME\.cursor\skills";          ProjectSkills = ".cursor\skills";    UserCmds = $null; ProjectCmds = $null },
   @{ Name = "copilot";     UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null },
-  @{ Name = "antigravity"; UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null }
+  @{ Name = "antigravity"; UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null },
+  @{ Name = "pi";          UserSkills = "$HOME\.pi\agent\skills";        ProjectSkills = ".pi\skills";          UserCmds = $null; ProjectCmds = $null }
 )
 
 $CmdSignal = @"
