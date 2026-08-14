@@ -15,7 +15,7 @@ Minimize tokens, actions, elapsed time, and change surface subject to a correct,
 4. Set hypothesis budget: `quick=1`, `standard=2`, `rigorous=3`. Generate more only for explicit high-impact need.
 5. Inspect the needed path. Reject options failing hard constraints. Test the cheapest discriminator among survivors.
 6. Use the first working rung: `need → existing path → standard library/platform → installed dependency → minimum root-cause change`.
-7. Make the smallest reversible change. Run one proportionate check at the nearest sufficient layer. A pass ends the task; if no check fits, report `unverified`.
+7. Make the smallest reversible change. Run one proportionate check at the nearest sufficient layer. The check must cover the success contract; a passing proxy is not success. Report any uncovered part instead of grinding.
 8. Stop when one adequate option remains. Do not optimize after adequacy.
 
 Easy task: `inspect one path → one change → one check → stop`. Do not load protocols or enumerate edge cases unless named.
