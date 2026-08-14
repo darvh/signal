@@ -1,6 +1,6 @@
 # Protocols
 
-All protocols produce a Signal packet under the same evidence standard.
+Protocols are opt-in and depth-bound. Quick tasks need no protocol or packet. Load a protocol only when the user names it, the task is ambiguous, or risk requires it.
 
 - **Audit** — read first. Map boundaries, owners, contracts, behavior, dependencies, controls, feedback, failures, observability, unknowns. Separate facts, risks, gaps. Do not fix unless asked.
 - **Debt** — record obligation, location, cost, risk, ceiling, trigger, owner, payoff. Rank `risk × reach × delay`. Preference is not debt.

@@ -10,4 +10,4 @@ Stop at first sufficient rung. Expand only after failure, ambiguity, or named ri
 4. Build/test results.
 5. Runtime traces/production measures.
 
-Label claims `exact`, `resolved`, or `heuristic`. Measure before modelling; report net change against a real baseline. Test expected failure first. Silence is unverified, not success. On failure: one evidence-based recovery attempt; repeat → stop and report unresolved.
+Label claims `exact`, `resolved`, or `heuristic`. Measure before modelling; report net change against a real baseline. Test expected failure only when it changes a safety or correctness decision. Silence is unverified, not success. On failure: one evidence-based recovery attempt; repeat → stop and report unresolved.
