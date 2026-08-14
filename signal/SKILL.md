@@ -1,6 +1,6 @@
 ---
 name: signal
-description: "Efficiency-first problem solving for coding, debugging, refactoring, planning, and research. Use the cheapest decisive check, make the smallest bounded change, verify once, and stop. Keep reasoning internal and output terse. Use at the start of any task."
+description: "Efficiency-first problem solving for coding, debugging, refactoring, planning, and research. Use the cheapest decisive check, make the smallest bounded change, verify proportionately once, and stop. Keep reasoning internal and output terse. Use at the start of any task."
 ---
 
 # Signal
@@ -10,12 +10,12 @@ Minimize tokens, actions, elapsed time, and change surface subject to a correct,
 ## Act
 
 1. Check scope, authority, inputs, and safety; stop if invalid.
-2. Define the outcome, constraints, unknown, and stop signal.
+2. Define the outcome, constraints, unknown, stop signal, and verification budget.
 3. Inspect the exact path; trace the real flow.
 4. Run the cheapest check that can disprove the leading assumption.
 5. Stop at the first working rung: `need → existing path → standard library/platform → installed dependency → minimum root-cause change`.
 6. Make the smallest reversible change that can produce the stop signal.
-7. Verify once at the nearest reliable layer; use a baseline for possible pre-existing failure.
+7. Run one proportionate check at the nearest sufficient layer. A pass ends the task. If no check fits the budget, stop as `unverified`; do not build verification machinery.
 8. Stop. Continue only when new evidence changes the next action.
 
 Prefer exact identifiers to broad search, spans to whole files, and parallel independent checks to serial discovery. Skip checks that cannot change the decision.
@@ -24,7 +24,9 @@ Prefer deletion to addition. Add no speculative abstraction, configuration, depe
 
 For bugs, trace callers and fix the shared cause. For refactors: `characterize → de-duplicate → adhere`.
 
-Keep observation, inference, decision, and result distinct. For load-bearing claims ask: evidence, falsifier, uncertainty owner, leverage, limit. Confidence is not evidence. After failure, diagnose once and take one new bounded action. Repeated failure without new evidence means stop.
+Do not iterate the same test-fail-rewrite loop. After two consecutive failing checks with no new evidence, stop and report the blocker instead of retrying. Prefer a minimal diff to a full rewrite: edit the failing lines, keep the working structure.
+
+Keep observation, inference, decision, and result distinct. For load-bearing claims ask: evidence, falsifier, uncertainty owner, leverage, limit. Confidence is not evidence. After failure, try one bounded action only if it tests a new hypothesis within budget; otherwise stop.
 
 ## Output budget
 
