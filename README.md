@@ -29,6 +29,10 @@ Useful flags: `--local`, `--targets <agents>`, `--skills signal`,
 `--force`, and `--dry-run`. See [install.sh](install.sh) and
 [install.ps1](install.ps1).
 
+Supported targets include OpenCode, Claude Code, Codex, Cursor, Copilot,
+Antigravity, and Pi. Pi uses `~/.pi/agent/skills` for user skills and
+`.pi/skills` for project skills.
+
 ## Signal fragments
 
 Load only the fragment needed:
