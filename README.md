@@ -30,8 +30,8 @@ Useful flags: `--local`, `--targets <agents>`, `--skills signal`,
 [install.ps1](install.ps1).
 
 Supported targets include OpenCode, Claude Code, Codex, Cursor, Copilot,
-Antigravity, and Pi. Pi uses `~/.pi/agent/skills` for user skills and
-`.pi/skills` for project skills.
+Antigravity, and Pi. Pi uses the shared Agent Skills locations
+`~/.agents/skills` for user skills and `.agents/skills` for project skills.
 
 ## Signal fragments
 
