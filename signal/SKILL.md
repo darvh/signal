@@ -1,9 +1,11 @@
 ---
 name: signal
-description: "Agent efficacy with efficiency: reduce uncertainty, gather evidence, take bounded action, verify outcomes. Use when implementing, fixing bugs, debugging, or making changes where correctness matters."
+description: "Agent efficacy with efficiency: reduce uncertainty, gather evidence, take bounded action, verify outcomes. Use for general problem solving on ANY coding task: implementing, writing, adding, fixing, debugging, investigating, refactoring, reviewing, or making changes — including planning, research, and design decisions."
 ---
 
 # Signal
+
+Use for any coding or problem-solving task. When you start a task, read this skill and apply it.
 
 ## Operate
 
