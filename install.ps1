@@ -24,10 +24,10 @@ $Targets = @(
 
 $CmdSignal = @"
 ---
-description: Activate the Signal skill — reduce uncertainty, gather evidence, verify.
+description: Activate Signal — solve harder problems with fewer tokens.
 ---
 
-Use the Signal skill before working: reduce uncertainty before acting (read the code, check assumptions); gather decision-changing evidence (run tests, probe edge inputs); act within bounds; verify your change before claiming done; recover when something fails. Never claim completion without verifying it yourself.
+Use Signal before working: reduce the problem to its load-bearing unknown; run the cheapest decision-changing check; reuse before building; make the smallest root-cause change; verify once at the nearest sufficient layer; stop when the success contract is met.
 "@
 $mode = "global"; $only = @(); $pick = @(); $force = $false; $dry = $false
 for ($i = 0; $i -lt $args.Count; $i++) {

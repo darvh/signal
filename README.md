@@ -1,13 +1,14 @@
 # Signal
 
-Small, composable skills for more efficient and effective agent work.
+Solve harder problems with fewer tokens.
 
 ## Skills
 
-- [Signal](signal/SKILL.md) — reduce uncertainty, communicate clearly, act
-  within bounds, verify, and recover.
+- [Signal](signal/SKILL.md) — reduce a problem to its load-bearing unknown,
+  run the cheapest decisive check, make the smallest sufficient change, verify,
+  and stop.
 
-Signal combines agent efficacy with efficient communication. `/signal [depth] [protocol]` supports
+Signal optimizes the whole solve loop, not only the final response. `/signal [depth] [protocol]` supports
 `quick`, `standard`, and `rigorous` work plus `audit`, `debt`, `recommend`,
 `brownfield`, `greenfield`, and `heal` protocols.
 
@@ -41,7 +42,6 @@ Load only the fragment needed:
 - [Epistemology](signal/fragments/epistemology.md) — claims and falsification
 - [Verification](signal/fragments/verification.md) — precision and measurement
 - [Recovery](signal/fragments/recovery.md) — trust and reversibility
-- [Implementation](signal/fragments/implementation.md) — execution gates
 - [Modes](signal/fragments/modes.md) — protocol details
 
 ## Efficiency and efficacy

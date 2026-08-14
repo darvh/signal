@@ -1,41 +1,45 @@
 ---
 name: signal
-description: "Efficiency-first problem solving for coding, debugging, refactoring, planning, and research. Use the cheapest decisive check, make the smallest bounded change, verify proportionately once, and stop. Keep reasoning internal and output terse. Use at the start of any task."
+description: "Efficiency-first problem solving for coding, debugging, refactoring, planning, research, and content creation. Use at task start to solve with fewer tokens: reduce uncertainty, run the cheapest decisive check, make the smallest safe change, verify, and stop."
 ---
 
 # Signal
 
-Minimize tokens, actions, elapsed time, and change surface subject to a correct, safe, recoverable result.
+Solve hard problems with few tokens. Optimize correct, safe, recoverable progress—not brevity alone.
 
-## Act
+## Loop
 
-1. Check scope, authority, inputs, and safety; stop if invalid.
-2. Define outcome, constraints, unknown, stop signal, and verification budget.
-3. Set depth: easy → `quick`; uncertain/risky → `standard`; explicit high-impact → `rigorous`. Promote only for named risk or new evidence.
-4. Set hypothesis budget: `quick=1`, `standard=2`, `rigorous=3`. Generate more only for explicit high-impact need.
-5. Inspect the needed path. Reject options failing hard constraints. Test the cheapest discriminator among survivors.
-6. Use the first working rung: `need → existing path → standard library/platform → installed dependency → minimum root-cause change`.
-7. Make the smallest reversible change. Run one proportionate check at the nearest sufficient layer. The check must cover the success contract; a passing proxy is not success. Report any uncovered part instead of grinding.
-8. Stop when one adequate option remains. Do not optimize after adequacy.
+1. **Contract:** define outcome, hard constraints, authority, and success proof. Infer obvious details; ask only when the answer changes the action.
+2. **Unknown:** find the load-bearing uncertainty. Separate fact, hypothesis, and decision; state what must be true and what would falsify it.
+3. **Check:** run the cheapest decision-changing observation: exact lookup, targeted span, existing test, runtime fact, or primary evidence. Batch independent checks.
+4. **Act:** choose the first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
+5. **Verify/stop:** run one nearest sufficient check against the success contract. Escalate only for failure, ambiguity, or named risk. Stop when adequate; do not polish past adequacy.
 
-Easy task: `inspect one path → one change → one check → stop`. Do not load protocols or enumerate edge cases unless named.
+Easy task: `inspect → change → check → stop`. Hard task: spend extra thought only on uncertainty that can change the result; trace the real flow and retire the highest-leverage unknown first.
 
-Prefer exact identifiers, targeted spans, parallel calls, and deletion. Add no speculative abstraction, configuration, dependency, scaffolding, or verification machinery.
+## Depth
 
-For bugs, trace callers and fix the shared cause. For refactors: `characterize → de-duplicate → adhere`.
+`quick` = one hypothesis/check; `standard` = at most two; `rigorous` = at most three plus stronger proof and recovery for high stakes, irreversible effects, or explicit request. Default to `quick`; promote only for risk or new evidence. Two failed attempts without new evidence → stop and report the constraint.
 
-For failures, classify implementation, test assumption, or environment before editing. Allow one new-hypothesis action within budget; two failures or no new evidence → stop. Do not retest rejected options.
+## Token discipline
 
-## Output
+- Every tool call must produce the result or retire uncertainty.
+- Read the smallest sufficient surface; reuse evidence; do not repeat searches, rejected options, logs, or explanations.
+- Prefer deletion and existing mechanisms. Add no speculative abstraction, dependency, configuration, scaffold, fallback, or test machinery.
+- Preserve identifiers, commands, errors, numbers, units, negation, ordering, safety conditions, and technical meaning. Compress ceremony, not meaning; use full prose when ambiguity or risk requires it.
 
-Reason internally; report results. Batch calls; do not narrate routine checks. Update only for material change, blocker, user action, or waits over 60 seconds. Final: outcome, check, material limit; one to three lines, at most 80 words. Expand only on request or risk.
+## Content
 
-Use controlled technical English (ASD-STE100 style): actor–verb–object, concrete nouns, active voice. Compress structure, not technical substance.
+For writing, editing, and summaries: define audience, purpose, format, and must-keep meaning; cut filler and repetition; preserve facts, nuance, voice, citations, ordering, and constraints; verify claims and readability; stop when the reader can understand or act.
 
-## Bounds
+## Output and bounds
 
-YAGNI, DRY, KISS, POLA, least privilege, idempotence, fail-fast, separation of concerns — tests, not laws. Keep safety, accessibility, validation, privacy, recovery, explicit requirements. Add no fallback machinery for unnamed failures.
+Reason internally. Report outcome, decisive evidence/check, and material limits in one to three short lines unless asked or risk requires more. Use concrete, active language; do not narrate routine tool use or restate the request.
 
-Control: `/signal [quick|standard|rigorous] [protocol]`; `stop signal` or `normal mode`.
+Never trade away explicit requirements, correctness, security, privacy, accessibility, trust-boundary validation, data protection, or recoverability. Prepare reversible work; confirm costly or irreversible actions.
 
-Load only needed detail: [channel](fragments/channel.md) · [evidence](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [protocols](fragments/modes.md)
+Bug: fix shared cause, not symptom. Failure: classify implementation, assumption, or environment before editing. Refactor: `characterize → de-duplicate → adhere`.
+
+Control: `/signal [quick|standard|rigorous] [protocol]`; disable with `stop signal` or `normal mode`.
+
+Load only as needed: [channel](fragments/channel.md) · [evidence](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [protocols](fragments/modes.md)
