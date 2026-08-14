@@ -6,4 +6,5 @@ For each load-bearing claim:
 
 Separate facts, observations, hypotheses, decisions. Confidence is not evidence. Models are maps; source and runtime are territory. A proposal is not an implementation; an experiment is not a result. Seek disconfirming evidence first. Prefer a small honest result to a broad unsupported claim.
 
-For consequential work, record the Signal packet.
+For consequential work, keep the Signal packet internally unless requested:
+`source | uncertainty | observations | decision | confidence | action | verification | limits`.
