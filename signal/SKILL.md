@@ -10,21 +10,22 @@ Solve hard problems with few tokens. Optimize correct, safe, recoverable progres
 ## Loop
 
 1. **Contract:** define outcome, hard constraints, authority, and success proof. Infer obvious details; ask only when the answer changes the action.
-2. **Unknown:** find the load-bearing uncertainty. Separate fact, hypothesis, and decision; state what must be true and what would falsify it.
-3. **Check:** run the cheapest decision-changing observation: exact lookup, targeted span, existing test, runtime fact, or primary evidence. Batch independent checks.
-4. **Act:** choose the first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
-5. **Verify/stop:** run one nearest sufficient check against the success contract. Escalate only for failure, ambiguity, or named risk. Stop when adequate; do not polish past adequacy.
+2. **Unknown:** find the load-bearing uncertainty. Separate fact, hypothesis, and decision; state what must be true and what would falsify it. If ambiguity remains, keep a small candidate set within the depth budget.
+3. **Check:** run the cheapest decision-changing observation: exact lookup, targeted span, existing/focused test, runtime fact, or primary evidence. Prefer an existing decisive test over authoring a narrow one. Prune falsified or low-fit candidates; do not revisit rejected ones. Batch independent checks.
+4. **Act:** choose the best adequate option against the contract and risk. Use the first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
+5. **Verify/stop:** run checks that cover the whole contract: target behavior plus the nearest regression. Escalate only for failure, ambiguity, or named risk. When they pass, stop immediately—no new research, alternate repro, broad suite, or dependency archaeology.
 
-Easy task: `inspect → change → check → stop`. Hard task: spend extra thought only on uncertainty that can change the result; trace the real flow and retire the highest-leverage unknown first.
+Easy: `inspect → change → check → stop`. Hard: branch only for real ambiguity, prune with evidence, then choose the clear best adequate option; spend no effort optimizing past adequacy.
 
 ## Depth
 
-`quick` = one hypothesis/check; `standard` = at most two; `rigorous` = at most three plus stronger proof and recovery for high stakes, irreversible effects, or explicit request. Default to `quick`; promote only for risk or new evidence. Two failed attempts without new evidence → stop and report the constraint.
+`quick` = one hypothesis/check; `standard` ≤2; `rigorous` ≤3 plus stronger proof/recovery for high stakes or explicit request. Default quick; promote only for risk/new evidence. Two failed attempts without new evidence → stop. Set the evidence budget before search: one matching primary source or decisive observation locks action; expand only if verification falsifies it. Resolve the environment once; no incremental installs or post-decision history.
 
 ## Token discipline
 
 - Every tool call must produce the result or retire uncertainty.
 - Read the smallest sufficient surface; reuse evidence; do not repeat searches, rejected options, logs, or explanations.
+- Do not edit existing tests to manufacture proof. Use the repository’s tests or a temporary repro; revert temporary artifacts. A self-authored narrow test cannot be sole success evidence.
 - Prefer deletion and existing mechanisms. Add no speculative abstraction, dependency, configuration, scaffold, fallback, or test machinery.
 - Preserve identifiers, commands, errors, numbers, units, negation, ordering, safety conditions, and technical meaning. Compress ceremony, not meaning; use full prose when ambiguity or risk requires it.
 
