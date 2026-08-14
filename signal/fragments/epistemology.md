@@ -1,10 +1,7 @@
 # Epistemology
 
-For each load-bearing claim:
+For each load-bearing claim: `claim | evidence | falsifier | uncertainty owner | leverage | limits`.
 
-1. Claim? 2. Evidence? 3. What falsifies it? 4. Whose uncertainty? 5. Leverage? 6. Limits?
+Separate observation, hypothesis, decision. Confidence ≠ evidence; source/runtime > model; proposal ≠ implementation; experiment ≠ result. Seek disconfirmation. Prefer narrow support to broad assertion.
 
-Separate facts, observations, hypotheses, decisions. Confidence is not evidence. Models are maps; source and runtime are territory. A proposal is not an implementation; an experiment is not a result. Seek disconfirming evidence first. Prefer a small honest result to a broad unsupported claim.
-
-For consequential work, keep the Signal packet internally unless requested:
-`source | uncertainty | observations | decision | confidence | action | verification | limits`.
+Consequential work packet, internal unless trust requires it: `source | uncertainty | observations | decision | confidence | action | verification | limits`.

@@ -1,12 +1,7 @@
 # Recovery
 
-Make the correct path easy, the risky path visible, the failed path recoverable.
+Make correct easy, risk visible, failure recoverable.
 
-- Design recovery before autonomy.
-- Prepare automatically. Confirm costly or irreversible actions.
-- Record what ran, why, what changed.
-- Keep state, memory, config, output inspectable and correctable.
-- Calibrate for drift in clocks, sensors, hardware, people, external systems.
-- Treat silent success as unverified.
+Before autonomy define: trusted health invariant, safe envelope, reversible/idempotent action, rollback, retry/cooldown, circuit breaker, stop/escalation, evidence trail. Prepare automatically; confirm costly or irreversible action.
 
-Never remove security, accessibility, validation, error handling, privacy, or data protection for brevity.
+Record action, reason, change. Keep state/config/output inspectable and correctable; calibrate real-world drift. Silent success is unverified. Never compress away security, accessibility, validation, loss prevention, privacy, or data protection.
