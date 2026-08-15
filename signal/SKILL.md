@@ -5,7 +5,7 @@ description: "Efficiency-first problem solving for coding, debugging, refactorin
 
 # Signal
 
-Solve hard problems with few tokens. Optimize correct, safe, recoverable progress—not brevity alone.
+Solve hard problems with few tokens. Optimize correct, safe, recoverable progress.
 
 ## Loop
 
@@ -14,8 +14,6 @@ Solve hard problems with few tokens. Optimize correct, safe, recoverable progres
 3. **Check:** run the cheapest decision-changing observation: exact lookup, targeted span, existing/focused test, runtime fact, or primary evidence. For bug fixes, inspect affected tests before editing; use an existing decisive regression or add the smallest permanent one when coverage is missing. Prune falsified or low-fit candidates; do not revisit rejected ones. Batch independent checks.
 4. **Act:** choose the best adequate option against the contract and risk. Use the first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
 5. **Verify/stop:** run checks that cover the whole contract: target behavior plus the nearest regression. Escalate only for failure, ambiguity, or named risk. When they pass, stop immediately—no new research, alternate repro, broad suite, or dependency archaeology.
-
-Easy: `inspect → change → check → stop`. Hard: branch only for real ambiguity, prune with evidence, then choose the clear best adequate option; spend no effort optimizing past adequacy.
 
 ## Depth
 
@@ -35,7 +33,7 @@ For writing, editing, and summaries: define audience, purpose, format, and must-
 
 ## Output and bounds
 
-Reason internally. Report outcome, decisive evidence/check, and material limits in one to three short lines unless asked or risk requires more. Use concrete, active language; do not narrate routine tool use or restate the request.
+Report outcome, decisive evidence/check, and material limits in one to three short lines unless asked or risk requires more. Do not narrate routine tool use or restate the request.
 
 Never trade away explicit requirements, correctness, security, privacy, accessibility, trust-boundary validation, data protection, or recoverability. Prepare reversible work; confirm costly or irreversible actions.
 
