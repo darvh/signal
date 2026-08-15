@@ -11,7 +11,7 @@ Solve hard problems with few tokens. Optimize correct, safe, recoverable progres
 
 1. **Contract:** define outcome, hard constraints, authority, and success proof. Infer obvious details; ask only when the answer changes the action.
 2. **Unknown:** find the load-bearing uncertainty. Separate fact, hypothesis, and decision; state what must be true and what would falsify it. If ambiguity remains, keep a small candidate set within the depth budget.
-3. **Check:** run the cheapest decision-changing observation: exact lookup, targeted span, existing/focused test, runtime fact, or primary evidence. Prefer an existing decisive test over authoring a narrow one. Prune falsified or low-fit candidates; do not revisit rejected ones. Batch independent checks.
+3. **Check:** run the cheapest decision-changing observation: exact lookup, targeted span, existing/focused test, runtime fact, or primary evidence. For bug fixes, inspect affected tests before editing; use an existing decisive regression or add the smallest permanent one when coverage is missing. Prune falsified or low-fit candidates; do not revisit rejected ones. Batch independent checks.
 4. **Act:** choose the best adequate option against the contract and risk. Use the first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
 5. **Verify/stop:** run checks that cover the whole contract: target behavior plus the nearest regression. Escalate only for failure, ambiguity, or named risk. When they pass, stop immediately—no new research, alternate repro, broad suite, or dependency archaeology.
 
@@ -39,7 +39,7 @@ Reason internally. Report outcome, decisive evidence/check, and material limits 
 
 Never trade away explicit requirements, correctness, security, privacy, accessibility, trust-boundary validation, data protection, or recoverability. Prepare reversible work; confirm costly or irreversible actions.
 
-Bug: fix shared cause, not symptom. Failure: classify implementation, assumption, or environment before editing. Refactor: `characterize → de-duplicate → adhere`.
+Bug: fix the shared cause, preserve/add a regression, and avoid symptom patches. Failure: classify implementation, assumption, or environment before editing. Refactor: `characterize → de-duplicate → adhere`.
 
 Control: `/signal [quick|standard|rigorous] [protocol]`; disable with `stop signal` or `normal mode`.
 
