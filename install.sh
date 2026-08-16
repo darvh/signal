@@ -4,10 +4,10 @@
 #
 #   curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
 #   bash install.sh [--local] [--targets <agents>] [--skills signal]
-#                   [--force] [--dry-run]
+#                   [--force|--no-force] [--dry-run]
 #
-# Runs from a checkout, or piped: the repo is cloned into a temp dir first, so
-# symlinks never point at the caller's directory. User scope: absent agent
+# Runs from a checkout, or piped: the repo is cloned into a revisioned user
+# cache so installed symlinks survive the installer process. User scope: absent agent
 # dirs are reported (agent-miss), never created. Project scope (--local):
 # skills and slash commands go into the project dirs. Installs are symlinks.
 set -euo pipefail
@@ -21,8 +21,15 @@ fi
 if [ -z "$HERE" ] || [ ! -d "$HERE/signal" ] || [ ! -f "$HERE/install.sh" ]; then
   tmp="$(mktemp -d)"
   trap 'rm -rf "$tmp"' EXIT
+  cache_root="${XDG_CACHE_HOME:-$HOME/.cache}/signal"
+  mkdir -p "$cache_root"
   git clone --depth 1 https://github.com/darvh/signal.git "$tmp/signal" >/dev/null 2>&1 || { echo "signal: clone failed (need git)" >&2; exit 1; }
-  HERE="$tmp/signal"
+  revision="$(git -C "$tmp/signal" rev-parse HEAD 2>/dev/null)" || { echo "signal: cannot read cloned revision" >&2; exit 1; }
+  cached="$cache_root/$revision"
+  if [[ ! -d "$cached" ]]; then
+    mv "$tmp/signal" "$cached"
+  fi
+  HERE="$cached"
 fi
 
 SKILLS=(signal)
@@ -37,6 +44,7 @@ antigravity|~/.agents/skills|.agents/skills||
 pi|~/.agents/skills|.agents/skills||"
 
 mode=global
+project_root="${SIGNAL_PROJECT_ROOT:-$PWD}"
 only=()
 pick=()
 force=0
@@ -44,14 +52,21 @@ dry=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --local) mode=local ;;
-    --targets) IFS=',' read -r -a only <<< "$2"; shift ;;
+    --targets) IFS=',' read -r -a only <<< "${2:-}"; shift ;;
+    --targets=*) IFS=',' read -r -a only <<< "${1#--targets=}" ;;
     --skills)
       case "$2" in
         signal) pick=(signal) ;;
         *) echo "unknown skill: $2 (use: signal)" >&2; exit 2 ;;
       esac
       shift ;;
+    --skills=*)
+      case "${1#--skills=}" in
+        signal) pick=(signal) ;;
+        *) echo "unknown skill: ${1#--skills=} (use: signal)" >&2; exit 2 ;;
+      esac ;;
     --force) force=1 ;;
+    --no-force) force=0 ;;
     --dry-run) dry=1 ;;
     *) echo "unknown option: $1" >&2; exit 2 ;;
   esac
@@ -69,7 +84,7 @@ while IFS='|' read -r name user_skills proj_skills user_cmds proj_cmds; do
   [[ -n "$name" ]] || continue
   if ((${#only[@]})) && ! printf '%s\n' "${only[@]}" | grep -qx "$name"; then continue; fi
   if [[ $mode == local ]]; then
-    dir="$HERE/$proj_skills"
+    dir="$project_root/$proj_skills"
     ((!dry)) && mkdir -p "$dir"
   else
     dir="${user_skills/#\~/$HOME}"
@@ -104,7 +119,7 @@ while IFS='|' read -r name user_skills proj_skills user_cmds proj_cmds; do
   fi
   if [[ -n "$user_cmds" ]]; then
     cdir="${user_cmds/#\~/$HOME}"
-    [[ $mode == local ]] && cdir="$HERE/$proj_cmds"
+    [[ $mode == local ]] && cdir="$project_root/$proj_cmds"
     ((!dry)) && mkdir -p "$cdir"
     for s in "${pick[@]}"; do
       cdst="$cdir/$s.md"

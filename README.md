@@ -27,12 +27,15 @@ irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
 ```
 
 Useful flags: `--local`, `--targets <agents>`, `--skills signal`,
-`--force`, and `--dry-run`. See [install.sh](install.sh) and
-[install.ps1](install.ps1).
+`--force`/`--no-force`, and `--dry-run`. `--local` writes under the caller's current
+project (or `SIGNAL_PROJECT_ROOT`); piped installs keep their checkout in a
+revisioned cache so links remain valid after the installer exits. See
+[install.sh](install.sh) and [install.ps1](install.ps1).
 
 Supported targets include OpenCode, Claude Code, Codex, Cursor, Copilot,
-Antigravity, and Pi. Pi uses the shared Agent Skills locations
-`~/.agents/skills` for user skills and `.agents/skills` for project skills.
+Antigravity, and Pi. Copilot, Antigravity, and Pi use the shared Agent Skills
+locations `~/.agents/skills` and `.agents/skills`; host-specific directories
+are used where the host defines them.
 
 ## Signal fragments
 
