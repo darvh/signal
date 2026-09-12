@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Shell syntax
+        run: bash -n install.sh
+
+      - name: Help exits 0
+        run: bash install.sh --help | grep -q "USAGE:"
+
+      - name: Install, idempotent re-run, and uninstall
+        run: |
+          set -euo pipefail
+          home="$(mktemp -d)"
+          mkdir -p "$home/.claude" "$home/.config/opencode"
+
+          # --create materializes skill dirs only for agents that are present
+          HOME="$home" bash install.sh --targets opencode,claude-code --create
+          test -L "$home/.claude/skills/signal"
+          test -f "$home/.claude/commands/signal.md"
+          test -L "$home/.config/opencode/skills/signal"
+          test -f "$home/.config/opencode/commands/signal.md"
+
+          # re-running is idempotent (no conflicts)
+          HOME="$home" bash install.sh --targets opencode,claude-code --create | grep -q "up-to-date"
+
+          # uninstall removes links and commands
+          HOME="$home" bash install.sh --uninstall --targets opencode,claude-code
+          test ! -e "$home/.claude/skills/signal"
+          test ! -e "$home/.claude/commands/signal.md"
+          test ! -e "$home/.config/opencode/skills/signal"
+          test ! -e "$home/.config/opencode/commands/signal.md"
