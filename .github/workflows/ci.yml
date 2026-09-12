@@ -24,6 +24,13 @@ jobs:
           out="$(bash install.sh --help)"
           grep -q "USAGE:" <<<"$out"
 
+      - name: PowerShell syntax and dry-run
+        run: |
+          set -euo pipefail
+          out="$(pwsh -NoProfile -File install.ps1 -Help)"
+          grep -q "USAGE:" <<<"$out"
+          pwsh -NoProfile -File install.ps1 -Targets=claude-code,opencode -Create -DryRun >/dev/null
+
       - name: Install, idempotent re-run, and uninstall
         run: |
           set -euo pipefail

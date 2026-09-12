@@ -140,7 +140,9 @@ function Test-AgentPresent {
 }
 
 if ($uninstall) {
-  Write-Host "signal uninstall (skills: $($pick -join ' '), scope: $mode$($(if ($only.Count) { ", targets: $($only -join ',') })))"
+  $targetNote = if ($only.Count) { ", targets: $($only -join ',')" } else { "" }
+  Write-Host "signal uninstall (skills: $($pick -join ' '), scope: $mode$targetNote)"
+  $verb = if ($dry) { "would remove" } else { "removed" }
   foreach ($t in $Targets) {
     if ($only.Count -and $t.Name -notin $only) { continue }
     $dir = if ($mode -eq "local") { Join-Path $projectRoot $t.ProjectSkills } else { $t.UserSkills }
@@ -150,13 +152,13 @@ if ($uninstall) {
       $link = Get-Item $dst -ErrorAction SilentlyContinue
       if ($link -and $link.LinkType) {
         if (-not $dry) { [System.IO.Directory]::Delete($dst, $false) }
-        Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, "removed", $dst)
+        Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $verb, $dst)
       }
       if ($t.UserCmds) {
         $cdst = Join-Path $cdir "$s.md"
         if ((Test-Path $cdst) -and (Select-String -Path $cdst -Pattern "Activate Signal" -Quiet)) {
           if (-not $dry) { Remove-Item -Force $cdst }
-          Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, "removed", $cdst)
+          Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $verb, $cdst)
         }
       }
     }
@@ -165,7 +167,9 @@ if ($uninstall) {
   exit 0
 }
 
-Write-Host "signal install (skills: $($pick -join ' '), scope: $mode$($(if ($only.Count) { ", targets: $($only -join ',') }))$($(if ($ref) { ", ref: $ref" })))"
+$targetNote = if ($only.Count) { ", targets: $($only -join ',')" } else { "" }
+$refNote = if ($ref) { ", ref: $ref" } else { "" }
+Write-Host "signal install (skills: $($pick -join ' '), scope: $mode$targetNote$refNote)"
 foreach ($t in $Targets) {
   if ($only.Count -and $t.Name -notin $only) { continue }
   if ($mode -eq "local") {
