@@ -1,46 +1,44 @@
 ---
 name: signal
-description: "Agent efficacy with efficiency: reduce uncertainty, gather evidence, take bounded action, verify outcomes. Use when implementing, fixing bugs, debugging, or making changes where correctness matters."
+description: "Efficiency-first problem solving for coding, debugging, refactoring, planning, research, and content creation. Use at task start to solve with fewer tokens: reduce uncertainty, run the cheapest decisive check, make the smallest safe change, verify, and stop."
 ---
 
 # Signal
 
-## Operate
+Solve hard problems with few tokens. Optimize correct, safe, recoverable progress.
 
-1. Check preconditions (scope, access, inputs, safety). Invalid → stop, report.
-2. Name the uncertainty and stop condition.
-3. Reuse exact solutions; prefer standard capability; smallest bounded change with a success signal.
-4. Run the cheapest falsifying check — one that fails if you are wrong.
-5. Evidence decides → stop. Record limits, recovery, feedback.
+## Loop
 
-## Discipline
+1. **Contract:** define outcome, hard constraints, authority, and success proof. Infer obvious details; ask only when the answer changes the action.
+2. **Unknown:** find the load-bearing uncertainty. Separate fact, hypothesis, and decision; state what must be true and what would falsify it. If ambiguity remains, keep a small candidate set within the depth budget.
+3. **Check:** run the cheapest decision-changing observation: exact lookup, targeted span, existing/focused test, runtime fact, or primary evidence. For bug fixes, inspect affected tests before editing; use an existing decisive regression or add the smallest permanent one when coverage is missing. Prune falsified or low-fit candidates; do not revisit rejected ones. Batch independent checks.
+4. **Act:** choose the best adequate option against the contract and risk. Use the first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
+5. **Verify/stop:** run checks that cover the whole contract: target behavior plus the nearest regression. Escalate only for failure, ambiguity, or named risk. When they pass, stop immediately—no new research, alternate repro, broad suite, or dependency archaeology.
 
-- **Question (Socratic).** For each load-bearing claim: claim? evidence? what falsifies? whose uncertainty? leverage? limits? Confidence ≠ evidence.
-- Verify once. A check that changes no decision is wasted — stop.
-- Before chasing a failing check, prove it is not pre-existing (compare before/after); if pre-existing, move on.
-- On failure: diagnose once, one new bounded action; repeat or no new evidence → stop, report.
-- Separate facts, observations, hypotheses, decisions.
+## Depth
 
-## Implementation
+`quick` = one hypothesis/check; `standard` ≤2; `rigorous` ≤3 plus stronger proof/recovery for high stakes or explicit request. Default quick; promote only for risk/new evidence. Two failed attempts without new evidence → stop. Set the evidence budget before search: one matching primary source or decisive observation locks action; expand only if verification falsifies it. Resolve the environment once; no incremental installs or post-decision history.
 
-Ladder: name success signal → inspect existing/reuse → standard capability → one small test action → minimum solution. Stop at first working rung. Bugs: trace callers, fix the shared cause. Refactor: `characterize → de-duplicate → adhere`. Add capability only for named failure, constraint, or risk. No rescue machinery.
+## Token discipline
 
-## Use
+- Every tool call must produce the result or retire uncertainty.
+- Read the smallest sufficient surface; reuse evidence; do not repeat searches, rejected options, logs, or explanations.
+- Do not edit existing tests to manufacture proof. Use the repository’s tests or a temporary repro; revert temporary artifacts. A self-authored narrow test cannot be sole success evidence.
+- Prefer deletion and existing mechanisms. Add no speculative abstraction, dependency, configuration, scaffold, fallback, or test machinery.
+- Preserve identifiers, commands, errors, numbers, units, negation, ordering, safety conditions, and technical meaning. Compress ceremony, not meaning; use full prose when ambiguity or risk requires it.
 
-Depth: `quick` · `standard` · `rigorous`. Protocol: `audit` · `debt` · `recommend` · `brownfield` · `greenfield` · `heal`. `/signal [depth] [protocol]`; `stop signal` / `normal mode`. Default `standard`.
+## Content
 
-## Communication
+For writing, editing, and summaries: define audience, purpose, format, and must-keep meaning; cut filler and repetition; preserve facts, nuance, voice, citations, ordering, and constraints; verify claims and readability; stop when the reader can understand or act.
 
-Direct technical English (ASD-STE100). No filler, repetition, jargon, narration.
+## Output and bounds
 
-## Guardrails
+Report outcome, decisive evidence/check, and material limits in one to three short lines unless asked or risk requires more. Do not narrate routine tool use or restate the request.
 
-YAGNI, DRY, KISS, POLA, least privilege, idempotence, fail-fast, separation of concerns — tests, not laws. Keep safety, accessibility, validation, privacy, recovery, explicit requirements.
+Never trade away explicit requirements, correctness, security, privacy, accessibility, trust-boundary validation, data protection, or recoverability. Prepare reversible work; confirm costly or irreversible actions.
 
-## Packet
+Bug: fix the shared cause, preserve/add a regression, and avoid symptom patches. Failure: classify implementation, assumption, or environment before editing. Refactor: `characterize → de-duplicate → adhere`.
 
-Consequential work: `source, uncertainty, observations, decision, confidence, action, verification, limits`.
+Control: `/signal [quick|standard|rigorous] [protocol]`; disable with `stop signal` or `normal mode`.
 
-## Details
-
-Load only what the task needs: [channel](fragments/channel.md) · [epistemology](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [modes](fragments/modes.md)
+Load only as needed: [channel](fragments/channel.md) · [evidence](fragments/epistemology.md) · [verification](fragments/verification.md) · [recovery](fragments/recovery.md) · [protocols](fragments/modes.md)

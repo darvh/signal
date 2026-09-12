@@ -1,6 +1,6 @@
 # Signal
 
-Small, composable skills for more efficient and effective agent work.
+Solve harder problems with fewer tokens.
 
 ## Skills
 
@@ -8,7 +8,7 @@ Small, composable skills for more efficient and effective agent work.
   run the cheapest decisive check, make the smallest sufficient change, verify,
   and stop.
 
-Signal combines agent efficacy with efficient communication. `/signal [depth] [protocol]` supports
+Signal optimizes the whole solve loop, not only the final response. `/signal [depth] [protocol]` supports
 `quick`, `standard`, and `rigorous` work plus `audit`, `debt`, `recommend`,
 `brownfield`, `greenfield`, and `heal` protocols.
 

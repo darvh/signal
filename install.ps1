@@ -72,6 +72,7 @@ for ($i = 0; $i -lt $args.Count; $i++) {
     "ref" { $ref = $args[++$i].Trim() }
     "create" { $create = $true }
     "force" { $force = $true }
+    "no-force" { $force = $false }
     "dry-run" { $dry = $true }
     "uninstall" { $uninstall = $true }
     "h" { Show-Usage; exit 0 }
@@ -82,7 +83,8 @@ for ($i = 0; $i -lt $args.Count; $i++) {
 if ($pick.Count -eq 0) { $pick = $SKILLS }
 if (-not $ref) { $ref = $env:SIGNAL_REF }
 
-# Local checkout (PSScriptRoot set) or iex path: acquire from the repo.
+# Local checkout (PSScriptRoot set) or iex path: acquire from a revisioned
+# user cache so installed junctions survive the installer process.
 $here = $PSScriptRoot
 if (-not $here -or -not (Test-Path "$here\skills\signal\SKILL.md")) {
   $cacheRoot = if ($env:XDG_CACHE_HOME) { $env:XDG_CACHE_HOME } else { Join-Path $HOME ".cache" }
@@ -143,7 +145,7 @@ Write-Host "signal install (skills: $($pick -join ' '), scope: $mode$($(if ($onl
 foreach ($t in $Targets) {
   if ($only.Count -and $t.Name -notin $only) { continue }
   if ($mode -eq "local") {
-    $dir = Join-Path $here $t.ProjectSkills
+    $dir = Join-Path $projectRoot $t.ProjectSkills
     if (-not $dry) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
   } else {
     $dir = $t.UserSkills
@@ -185,7 +187,7 @@ foreach ($t in $Targets) {
     continue
   }
   if ($t.UserCmds) {
-    $cdir = if ($mode -eq "local") { Join-Path $here $t.ProjectCmds } else { $t.UserCmds }
+    $cdir = if ($mode -eq "local") { Join-Path $projectRoot $t.ProjectCmds } else { $t.UserCmds }
     if (-not $dry) { New-Item -ItemType Directory -Force -Path $cdir | Out-Null }
     foreach ($s in $pick) {
       $cdst = Join-Path $cdir "$s.md"

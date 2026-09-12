@@ -33,6 +33,7 @@ antigravity|~/.agents/skills|.agents/skills|||~/.antigravity
 pi|~/.agents/skills|.agents/skills|||~/.pi"
 
 mode=global
+project_root="${SIGNAL_PROJECT_ROOT:-$PWD}"
 only=()
 pick=()
 force=0
@@ -43,7 +44,8 @@ uninstall=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --local) mode=local ;;
-    --targets) IFS=',' read -r -a only <<< "$2"; shift ;;
+    --targets) IFS=',' read -r -a only <<< "${2:-}"; shift ;;
+    --targets=*) IFS=',' read -r -a only <<< "${1#--targets=}" ;;
     --skills)
       case "$2" in
         signal) pick=(signal) ;;
@@ -59,6 +61,7 @@ while [[ $# -gt 0 ]]; do
     --ref=*) ref="${1#--ref=}" ;;
     --create) create=1 ;;
     --force) force=1 ;;
+    --no-force) force=0 ;;
     --dry-run) dry=1 ;;
     --uninstall) uninstall=1 ;;
     -h|--help)
@@ -164,7 +167,7 @@ while IFS='|' read -r name user_skills proj_skills user_cmds proj_cmds probes; d
   [[ -n "$name" ]] || continue
   if ((${#only[@]})) && ! printf '%s\n' "${only[@]}" | grep -qx "$name"; then continue; fi
   if [[ $mode == local ]]; then
-    dir="$HERE/$proj_skills"
+    dir="$project_root/$proj_skills"
     ((!dry)) && mkdir -p "$dir"
   else
     dir="$(expand_home "$user_skills")"

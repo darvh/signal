@@ -1,11 +1,13 @@
 # Verification
 
-Stop at first sufficient rung. Expand only after failure, ambiguity, or named risk. Passing target check means exit:
+Reduce decision-relevant uncertainty, not all uncertainty. Set cost by risk; if the next check cannot justify its cost, stop and label `unverified`.
 
-1. Paths, state, lexical match.
-2. Syntax, declarations, calls, tests.
-3. Compiler/type/LSP facts.
-4. Build/test results.
-5. Runtime traces/production measures.
+Start at the lowest rung covering the whole success contract; climb only after failure, ambiguity, or named risk. For bug fixes, inspect affected tests before editing; prefer the repository’s decisive regression, or add the smallest permanent regression when coverage is missing. A temporary narrow check supplements coverage but never replaces it:
 
-Label claims `exact`, `resolved`, or `heuristic`. Measure before modelling; report net change against a real baseline. Test expected failure first. Silence is unverified, not success. On failure: one evidence-based recovery attempt; repeat → stop and report unresolved.
+1. Path/state/text
+2. Syntax/declaration/call/focused test
+3. Compiler/type/LSP
+4. Build/test
+5. Runtime/production measure
+
+Label claims `exact`, `resolved`, or `heuristic`. Measure against a real baseline. Test expected failure only when it changes safety or correctness. Silence is unverified. One evidence-based recovery attempt; repeat failure → stop unresolved.
