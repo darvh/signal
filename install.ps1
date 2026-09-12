@@ -3,7 +3,8 @@
 #
 #   irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
 #   powershell -File install.ps1 [-Local] [-Targets a,b] [-Skills signal]
-#                                 [-Force] [-NoForce] [-DryRun]
+#                                 [-Ref <git-ref>] [-Create] [-Force] [-NoForce]
+#                                 [-DryRun] [-Uninstall] [-Help]
 #
 # Mirrors install.sh: same agents, same flags, same behavior. Flags accept
 # -Local, --local and -local (PowerShell + shell styles).
@@ -11,34 +12,67 @@ $ErrorActionPreference = "Stop"
 
 $SKILLS = @("signal")
 
-# name | userSkills | projectSkills | userCmds | projectCmds
+# name | userSkills | projectSkills | userCmds | projectCmds | probes
 $Targets = @(
-  @{ Name = "opencode";    UserSkills = "$HOME\.config\opencode\skills"; ProjectSkills = ".opencode\skills"; UserCmds = "$HOME\.config\opencode\commands"; ProjectCmds = ".opencode\commands" },
-  @{ Name = "claude-code"; UserSkills = "$HOME\.claude\skills";          ProjectSkills = ".claude\skills";    UserCmds = $null; ProjectCmds = $null },
-  @{ Name = "codex";       UserSkills = "$HOME\.codex\skills";           ProjectSkills = ".codex\skills";     UserCmds = $null; ProjectCmds = $null },
-  @{ Name = "cursor";      UserSkills = "$HOME\.cursor\skills";          ProjectSkills = ".cursor\skills";    UserCmds = $null; ProjectCmds = $null },
-  @{ Name = "copilot";     UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null },
-  @{ Name = "antigravity"; UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null },
-  @{ Name = "pi";          UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";          UserCmds = $null; ProjectCmds = $null }
+  @{ Name = "opencode";    UserSkills = "$HOME\.config\opencode\skills"; ProjectSkills = ".opencode\skills"; UserCmds = "$HOME\.config\opencode\commands"; ProjectCmds = ".opencode\commands"; Probes = @("$HOME\.config\opencode") },
+  @{ Name = "claude-code"; UserSkills = "$HOME\.claude\skills";          ProjectSkills = ".claude\skills";    UserCmds = "$HOME\.claude\commands";          ProjectCmds = ".claude\commands";    Probes = @("$HOME\.claude") },
+  @{ Name = "codex";       UserSkills = "$HOME\.codex\skills";           ProjectSkills = ".codex\skills";     UserCmds = $null; ProjectCmds = $null; Probes = @("$HOME\.codex") },
+  @{ Name = "cursor";      UserSkills = "$HOME\.cursor\skills";          ProjectSkills = ".cursor\skills";    UserCmds = $null; ProjectCmds = $null; Probes = @("$HOME\.cursor") },
+  @{ Name = "copilot";     UserSkills = "$HOME\.copilot\skills";         ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null; Probes = @("$HOME\.config\github-copilot", "$HOME\.vscode") },
+  @{ Name = "antigravity"; UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null; Probes = @("$HOME\.antigravity") },
+  @{ Name = "pi";          UserSkills = "$HOME\.agents\skills";          ProjectSkills = ".agents\skills";    UserCmds = $null; ProjectCmds = $null; Probes = @("$HOME\.pi") }
 )
 
-$CmdSignal = @"
----
-description: Activate Signal — solve harder problems with fewer tokens.
----
+function Show-Usage {
+  @'
+signal install.ps1
 
-Use Signal before working: reduce the problem to its load-bearing unknown; run the cheapest decision-changing check; reuse before building; make the smallest root-cause change; verify once at the nearest sufficient layer; stop when the success contract is met.
-"@
-$mode = "global"; $projectRoot = if ($env:SIGNAL_PROJECT_ROOT) { $env:SIGNAL_PROJECT_ROOT } else { (Get-Location).Path }; $only = @(); $pick = @(); $force = $false; $dry = $false
+Installs the Signal agent skill (and slash command where the host supports it).
+
+USAGE:
+    install.ps1 [OPTIONS]
+
+OPTIONS:
+    -Local                Install into the current project (or $env:SIGNAL_PROJECT_ROOT)
+    -Targets <agents>     Comma-separated agents (default: all)
+    -Skills signal        Skill to install (only: signal)
+    -Ref <git-ref>        Clone/pin a tag, branch, or commit SHA (default: main)
+    -Create               Create absent home-scope agent dirs (default: report only)
+    -Force / -NoForce     Overwrite a non-link at the destination
+    -DryRun               Print the plan, install nothing
+    -Uninstall            Remove installed skill links and slash commands
+    -Help                 Show this help
+
+ENVIRONMENT:
+    SIGNAL_PROJECT_ROOT   Project scope root for -Local
+    SIGNAL_REF            Same as -Ref
+'@
+}
+
+$mode = "global"
+$projectRoot = if ($env:SIGNAL_PROJECT_ROOT) { $env:SIGNAL_PROJECT_ROOT } else { (Get-Location).Path }
+$only = @(); $pick = @(); $force = $false; $dry = $false; $create = $false; $ref = ""; $uninstall = $false
 for ($i = 0; $i -lt $args.Count; $i++) {
-  # PowerShell-friendly flags: -Local / --local / -local all accepted.
-  $flag = ($args[$i] -replace "^[-]+", "").ToLower()
-  if ($flag -like "targets=*") { $only = $flag.Substring(8) -split "," | ForEach-Object { $_.Trim() }; continue }
-  if ($flag -like "skills=*") {
-    $skill = $flag.Substring(7).Trim()
-    if ($skill -ne "signal") { Write-Error "unknown skill: $skill (use: signal)"; exit 2 }
-    $pick = @("signal"); continue
+  # accept -Force, --force, -NoForce, and --no-force alike. Strip leading
+  # dashes and normalize separators in the FLAG NAME only, so a value such as
+  # `-Targets=claude-code` keeps its hyphen.
+  $raw = $args[$i] -replace "^[-]+", ""
+  $eq = $raw.IndexOf("=")
+  if ($eq -ge 0) {
+    $name = ($raw.Substring(0, $eq) -replace "[-_]", "").ToLower()
+    $value = $raw.Substring($eq + 1)
+    switch ($name) {
+      "targets" { $only = $value -split "," | ForEach-Object { $_.Trim() } }
+      "skills" {
+        if ($value.Trim() -ne "signal") { Write-Error "unknown skill: $value (use: signal)"; exit 2 }
+        $pick = @("signal")
+      }
+      "ref" { $ref = $value.Trim() }
+      default { Write-Error "unknown option: $($args[$i])"; exit 2 }
+    }
+    continue
   }
+  $flag = ($raw -replace "[-_]", "").ToLower()
   switch ($flag) {
     "local" { $mode = "local" }
     "targets" { $only = $args[++$i] -split "," | ForEach-Object { $_.Trim() } }
@@ -47,24 +81,45 @@ for ($i = 0; $i -lt $args.Count; $i++) {
       if ($v -eq "signal") { $pick = @("signal") }
       else { Write-Error "unknown skill: $v (use: signal)"; exit 2 }
     }
+    "ref" { $ref = $args[++$i].Trim() }
+    "create" { $create = $true }
     "force" { $force = $true }
-    "no-force" { $force = $false }
-    "dry-run" { $dry = $true }
+    "noforce" { $force = $false }
+    "dryrun" { $dry = $true }
+    "uninstall" { $uninstall = $true }
+    "h" { Show-Usage; exit 0 }
+    "help" { Show-Usage; exit 0 }
     default { Write-Error "unknown option: $($args[$i])"; exit 2 }
   }
 }
 if ($pick.Count -eq 0) { $pick = $SKILLS }
+if (-not $ref) { $ref = $env:SIGNAL_REF }
 
 # Local checkout (PSScriptRoot set) or iex path: acquire from a revisioned
 # user cache so installed junctions survive the installer process.
 $here = $PSScriptRoot
-if (-not $here -or -not (Test-Path "$here\signal\SKILL.md")) {
+if (-not $here -or -not (Test-Path "$here\skills\signal\SKILL.md")) {
   $cacheRoot = if ($env:XDG_CACHE_HOME) { $env:XDG_CACHE_HOME } else { Join-Path $HOME ".cache" }
   $cacheRoot = Join-Path $cacheRoot "signal"
   New-Item -ItemType Directory -Force -Path $cacheRoot | Out-Null
   $tmp = Join-Path $env:TEMP ("signal-install-" + [guid]::NewGuid().ToString("N"))
-  & git clone --depth 1 https://github.com/darvh/signal.git $tmp
-  if ($LASTEXITCODE -ne 0) { Write-Error "signal: clone failed"; exit 1 }
+  $cloned = $false
+  if ($ref) {
+    # --branch resolves tags and branches; commit SHAs fall through to fetch.
+    & git clone --depth 1 --branch $ref https://github.com/darvh/signal.git $tmp 2>$null
+    $cloned = ($LASTEXITCODE -eq 0)
+  }
+  if (-not $cloned) {
+    if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp }
+    & git clone --depth 1 https://github.com/darvh/signal.git $tmp | Out-Null
+    if ($LASTEXITCODE -ne 0) { Write-Error "signal: clone failed"; exit 1 }
+    if ($ref) {
+      & git -C $tmp fetch --depth 1 origin $ref | Out-Null
+      if ($LASTEXITCODE -ne 0) { Write-Error "signal: cannot resolve ref '$ref' (try a branch, tag, or commit SHA)"; exit 1 }
+      & git -C $tmp checkout --detach FETCH_HEAD | Out-Null
+      if ($LASTEXITCODE -ne 0) { Write-Error "signal: cannot check out ref '$ref'"; exit 1 }
+    }
+  }
   $revision = (& git -C $tmp rev-parse HEAD).Trim()
   if (-not $revision) { Write-Error "signal: cannot read cloned revision"; exit 1 }
   $cached = Join-Path $cacheRoot $revision
@@ -72,7 +127,49 @@ if (-not $here -or -not (Test-Path "$here\signal\SKILL.md")) {
   $here = $cached
 }
 
-Write-Host "signal install (skills: $($pick -join ' '), scope: $mode$($(if ($only.Count) { ", targets: $($only -join ',')" })))"
+$cmdFile = Join-Path $here "commands\signal.md"
+
+function Test-AgentPresent {
+  param($Target)
+  foreach ($p in $Target.Probes) {
+    if (Test-Path $p) { return $true }
+    $bin = Split-Path $p -Leaf
+    if (Get-Command $bin -ErrorAction SilentlyContinue) { return $true }
+  }
+  return $false
+}
+
+if ($uninstall) {
+  $targetNote = if ($only.Count) { ", targets: $($only -join ',')" } else { "" }
+  Write-Host "signal uninstall (skills: $($pick -join ' '), scope: $mode$targetNote)"
+  $verb = if ($dry) { "would remove" } else { "removed" }
+  foreach ($t in $Targets) {
+    if ($only.Count -and $t.Name -notin $only) { continue }
+    $dir = if ($mode -eq "local") { Join-Path $projectRoot $t.ProjectSkills } else { $t.UserSkills }
+    $cdir = if ($mode -eq "local") { Join-Path $projectRoot $t.ProjectCmds } else { $t.UserCmds }
+    foreach ($s in $pick) {
+      $dst = Join-Path $dir $s
+      $link = Get-Item $dst -ErrorAction SilentlyContinue
+      if ($link -and $link.LinkType) {
+        if (-not $dry) { [System.IO.Directory]::Delete($dst, $false) }
+        Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $verb, $dst)
+      }
+      if ($t.UserCmds) {
+        $cdst = Join-Path $cdir "$s.md"
+        if ((Test-Path $cdst) -and (Select-String -Path $cdst -Pattern "Activate Signal" -Quiet)) {
+          if (-not $dry) { Remove-Item -Force $cdst }
+          Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $verb, $cdst)
+        }
+      }
+    }
+  }
+  if ($dry) { Write-Host "signal: dry-run, nothing removed" }
+  exit 0
+}
+
+$targetNote = if ($only.Count) { ", targets: $($only -join ',')" } else { "" }
+$refNote = if ($ref) { ", ref: $ref" } else { "" }
+Write-Host "signal install (skills: $($pick -join ' '), scope: $mode$targetNote$refNote)"
 foreach ($t in $Targets) {
   if ($only.Count -and $t.Name -notin $only) { continue }
   if ($mode -eq "local") {
@@ -81,12 +178,16 @@ foreach ($t in $Targets) {
   } else {
     $dir = $t.UserSkills
     if (-not (Test-Path $dir)) {
-      Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, "skill", "agent-miss", $dir)
-      continue
+      if ($create -and (Test-AgentPresent $t)) {
+        if (-not $dry) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
+      } else {
+        Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, "skill", "agent-miss", $dir)
+        continue
+      }
     }
   }
   foreach ($s in $pick) {
-    $dst = Join-Path $dir $s; $src = Join-Path $here $s
+    $dst = Join-Path $dir $s; $src = Join-Path $here "skills\$s"
     $st = "installed"
     $link = Get-Item $dst -ErrorAction SilentlyContinue
     if ($link -and $link.LinkType) {
@@ -98,7 +199,10 @@ foreach ($t in $Targets) {
     }
     if ($st -eq "conflict") { $st = "updated" }
     if (-not $dry) {
-      if (Test-Path $dst) { Remove-Item -Recurse -Force $dst }
+      if (Test-Path $dst) {
+        if ($link -and $link.LinkType) { [System.IO.Directory]::Delete($dst, $false) }
+        else { Remove-Item -Recurse -Force $dst }
+      }
       New-Item -ItemType Junction -Path $dst -Target $src -Force | Out-Null
     }
     if ($dry -and $st -eq "installed") { $st = "installed (dry-run)" }
@@ -115,15 +219,23 @@ foreach ($t in $Targets) {
     if (-not $dry) { New-Item -ItemType Directory -Force -Path $cdir | Out-Null }
     foreach ($s in $pick) {
       $cdst = Join-Path $cdir "$s.md"
-      if ((Test-Path $cdst) -and -not $force) {
-        Write-Host ("  {0,-12} {1,-8} {2,-10} {3} (use -Force)" -f $t.Name, $s, "conflict", $cdst)
+      if (-not (Test-Path $cmdFile)) {
+        Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, "skipped", "(missing $cmdFile)")
         continue
       }
-      if (-not $dry) {
-        $var = Get-Variable ("Cmd" + $s.Substring(0, 1).ToUpper() + $s.Substring(1)) -ValueOnly
-        Set-Content -Path $cdst -Value $var
+      $template = Get-Content -Raw $cmdFile
+      $existing = if (Test-Path $cdst) { Get-Content -Raw $cdst } else { $null }
+      if ($dry) {
+        $st2 = "command (dry-run)"
+      } elseif ($existing -eq $template) {
+        $st2 = "command (up-to-date)"
+      } elseif ($existing -and -not $force) {
+        Write-Host ("  {0,-12} {1,-8} {2,-10} {3} (use -Force)" -f $t.Name, $s, "conflict", $cdst)
+        continue
+      } else {
+        Set-Content -Path $cdst -Value $template -NoNewline
+        $st2 = "command"
       }
-      $st2 = if ($dry) { "command (dry-run)" } else { "command" }
       Write-Host ("  {0,-12} {1,-8} {2,-10} {3}" -f $t.Name, $s, $st2, $cdst)
     }
   }

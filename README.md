@@ -4,7 +4,7 @@ Solve harder problems with fewer tokens.
 
 ## Skills
 
-- [Signal](signal/SKILL.md) — reduce a problem to its load-bearing unknown,
+- [Signal](skills/signal/SKILL.md) — reduce a problem to its load-bearing unknown,
   run the cheapest decisive check, make the smallest sufficient change, verify,
   and stop.
 
@@ -26,26 +26,32 @@ curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
 irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
 ```
 
-Useful flags: `--local`, `--targets <agents>`, `--skills signal`,
-`--force`/`--no-force`, and `--dry-run`. `--local` writes under the caller's current
-project (or `SIGNAL_PROJECT_ROOT`); piped installs keep their checkout in a
-revisioned cache so links remain valid after the installer exits. See
+Useful flags: `--local`, `--targets <agents>`, `--skills signal`, `--ref <tag>`,
+`--create`, `--force`/`--no-force`, `--dry-run`, and `--uninstall`. `--local` writes
+under the caller's current project (or `SIGNAL_PROJECT_ROOT`); piped installs keep
+their checkout in a revisioned cache so links remain valid after the installer
+exits. By default an absent home-scope agent dir is reported (`agent-miss`) and
+never created; `--create` materializes it only for agents actually present on the
+machine. Slash commands are installed for OpenCode and Claude Code (from
+`commands/signal.md`). The skill also follows the `skills/<name>/SKILL.md`
+convention, so it is discoverable by `gh skill install darvh/signal`. See
 [install.sh](install.sh) and [install.ps1](install.ps1).
 
 Supported targets include OpenCode, Claude Code, Codex, Cursor, Copilot,
-Antigravity, and Pi. Copilot, Antigravity, and Pi use the shared Agent Skills
-locations `~/.agents/skills` and `.agents/skills`; host-specific directories
-are used where the host defines them.
+Antigravity, and Pi. Copilot user scope is `~/.copilot/skills` (matching
+`gh skill install --agent github-copilot`) with project scope `.agents/skills`;
+Antigravity and Pi use the shared `~/.agents/skills` / `.agents/skills`
+locations; host-specific directories are used where the host defines them.
 
 ## Signal fragments
 
 Load only the fragment needed:
 
-- [Channel](signal/fragments/channel.md) — signal, noise, and redundancy
-- [Epistemology](signal/fragments/epistemology.md) — claims and falsification
-- [Verification](signal/fragments/verification.md) — precision and measurement
-- [Recovery](signal/fragments/recovery.md) — trust and reversibility
-- [Modes](signal/fragments/modes.md) — protocol details
+- [Channel](skills/signal/fragments/channel.md) — signal, noise, and redundancy
+- [Epistemology](skills/signal/fragments/epistemology.md) — claims and falsification
+- [Verification](skills/signal/fragments/verification.md) — precision and measurement
+- [Recovery](skills/signal/fragments/recovery.md) — trust and reversibility
+- [Modes](skills/signal/fragments/modes.md) — protocol details
 
 ## Efficiency and efficacy
 
