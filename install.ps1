@@ -24,7 +24,7 @@ $Targets = @(
 )
 
 function Show-Usage {
-  @"
+  @'
 signal install.ps1
 
 Installs the Signal agent skill (and slash command where the host supports it).
@@ -46,21 +46,33 @@ OPTIONS:
 ENVIRONMENT:
     SIGNAL_PROJECT_ROOT   Project scope root for -Local
     SIGNAL_REF            Same as -Ref
-"@
+'@
 }
 
 $mode = "global"
 $projectRoot = if ($env:SIGNAL_PROJECT_ROOT) { $env:SIGNAL_PROJECT_ROOT } else { (Get-Location).Path }
 $only = @(); $pick = @(); $force = $false; $dry = $false; $create = $false; $ref = ""; $uninstall = $false
 for ($i = 0; $i -lt $args.Count; $i++) {
-  $flag = ($args[$i] -replace "^[-]+", "").ToLower()
-  if ($flag -like "targets=*") { $only = $flag.Substring(8) -split "," | ForEach-Object { $_.Trim() }; continue }
-  if ($flag -like "skills=*") {
-    $skill = $flag.Substring(7).Trim()
-    if ($skill -ne "signal") { Write-Error "unknown skill: $skill (use: signal)"; exit 2 }
-    $pick = @("signal"); continue
+  # accept -Force, --force, -NoForce, and --no-force alike. Strip leading
+  # dashes and normalize separators in the FLAG NAME only, so a value such as
+  # `-Targets=claude-code` keeps its hyphen.
+  $raw = $args[$i] -replace "^[-]+", ""
+  $eq = $raw.IndexOf("=")
+  if ($eq -ge 0) {
+    $name = ($raw.Substring(0, $eq) -replace "[-_]", "").ToLower()
+    $value = $raw.Substring($eq + 1)
+    switch ($name) {
+      "targets" { $only = $value -split "," | ForEach-Object { $_.Trim() } }
+      "skills" {
+        if ($value.Trim() -ne "signal") { Write-Error "unknown skill: $value (use: signal)"; exit 2 }
+        $pick = @("signal")
+      }
+      "ref" { $ref = $value.Trim() }
+      default { Write-Error "unknown option: $($args[$i])"; exit 2 }
+    }
+    continue
   }
-  if ($flag -like "ref=*") { $ref = $flag.Substring(4).Trim(); continue }
+  $flag = ($raw -replace "[-_]", "").ToLower()
   switch ($flag) {
     "local" { $mode = "local" }
     "targets" { $only = $args[++$i] -split "," | ForEach-Object { $_.Trim() } }
@@ -72,8 +84,8 @@ for ($i = 0; $i -lt $args.Count; $i++) {
     "ref" { $ref = $args[++$i].Trim() }
     "create" { $create = $true }
     "force" { $force = $true }
-    "no-force" { $force = $false }
-    "dry-run" { $dry = $true }
+    "noforce" { $force = $false }
+    "dryrun" { $dry = $true }
     "uninstall" { $uninstall = $true }
     "h" { Show-Usage; exit 0 }
     "help" { Show-Usage; exit 0 }
