@@ -20,7 +20,9 @@ jobs:
         run: bash -n install.sh
 
       - name: Help exits 0
-        run: bash install.sh --help | grep -q "USAGE:"
+        run: |
+          out="$(bash install.sh --help)"
+          grep -q "USAGE:" <<<"$out"
 
       - name: Install, idempotent re-run, and uninstall
         run: |
@@ -35,8 +37,10 @@ jobs:
           test -L "$home/.config/opencode/skills/signal"
           test -f "$home/.config/opencode/commands/signal.md"
 
-          # re-running is idempotent (no conflicts)
-          HOME="$home" bash install.sh --targets opencode,claude-code --create | grep -q "up-to-date"
+          # re-running is idempotent (capture output: never pipe the installer
+          # into an early-exit reader, which SIGPIPEs its next write)
+          out="$(HOME="$home" bash install.sh --targets opencode,claude-code --create)"
+          grep -q "up-to-date" <<<"$out"
 
           # uninstall removes links and commands
           HOME="$home" bash install.sh --uninstall --targets opencode,claude-code

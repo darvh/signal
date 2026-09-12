@@ -36,7 +36,7 @@ OPTIONS:
     -Local                Install into the current project (or $env:SIGNAL_PROJECT_ROOT)
     -Targets <agents>     Comma-separated agents (default: all)
     -Skills signal        Skill to install (only: signal)
-    -Ref <git-ref>        Clone/pin a tag or branch instead of main
+    -Ref <git-ref>        Clone/pin a tag, branch, or commit SHA (default: main)
     -Create               Create absent home-scope agent dirs (default: report only)
     -Force / -NoForce     Overwrite a non-link at the destination
     -DryRun               Print the plan, install nothing
@@ -91,11 +91,23 @@ if (-not $here -or -not (Test-Path "$here\skills\signal\SKILL.md")) {
   $cacheRoot = Join-Path $cacheRoot "signal"
   New-Item -ItemType Directory -Force -Path $cacheRoot | Out-Null
   $tmp = Join-Path $env:TEMP ("signal-install-" + [guid]::NewGuid().ToString("N"))
-  $cloneArgs = @("clone", "--depth", "1")
-  if ($ref) { $cloneArgs += @("--branch", $ref) }
-  $cloneArgs += @("https://github.com/darvh/signal.git", $tmp)
-  & git @cloneArgs
-  if ($LASTEXITCODE -ne 0) { Write-Error "signal: clone failed"; exit 1 }
+  $cloned = $false
+  if ($ref) {
+    # --branch resolves tags and branches; commit SHAs fall through to fetch.
+    & git clone --depth 1 --branch $ref https://github.com/darvh/signal.git $tmp 2>$null
+    $cloned = ($LASTEXITCODE -eq 0)
+  }
+  if (-not $cloned) {
+    if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp }
+    & git clone --depth 1 https://github.com/darvh/signal.git $tmp | Out-Null
+    if ($LASTEXITCODE -ne 0) { Write-Error "signal: clone failed"; exit 1 }
+    if ($ref) {
+      & git -C $tmp fetch --depth 1 origin $ref | Out-Null
+      if ($LASTEXITCODE -ne 0) { Write-Error "signal: cannot resolve ref '$ref' (try a branch, tag, or commit SHA)"; exit 1 }
+      & git -C $tmp checkout --detach FETCH_HEAD | Out-Null
+      if ($LASTEXITCODE -ne 0) { Write-Error "signal: cannot check out ref '$ref'"; exit 1 }
+    }
+  }
   $revision = (& git -C $tmp rev-parse HEAD).Trim()
   if (-not $revision) { Write-Error "signal: cannot read cloned revision"; exit 1 }
   $cached = Join-Path $cacheRoot $revision

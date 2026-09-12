@@ -77,7 +77,7 @@ OPTIONS:
     --local                Install into the current project (or $SIGNAL_PROJECT_ROOT)
     --targets <agents>     Comma-separated agents (default: all)
     --skills signal        Skill to install (only: signal)
-    --ref <git-ref>        Clone/pin a tag or branch instead of main
+    --ref <git-ref>        Clone/pin a tag, branch, or commit SHA (default: main)
     --create               Create absent home-scope agent dirs (default: report only)
     --force / --no-force   Overwrite a non-symlink at the destination
     --dry-run              Print the plan, install nothing
@@ -118,14 +118,31 @@ acquire() {
   trap 'rm -rf "$tmp_dir"' EXIT
   local cache_root="${XDG_CACHE_HOME:-$HOME/.cache}/signal"
   mkdir -p "$cache_root"
-  local clone_args=(clone --depth 1)
-  [[ -n "$ref" ]] && clone_args+=(--branch "$ref")
-  git "${clone_args[@]}" https://github.com/darvh/signal.git "$tmp_dir/signal" >/dev/null 2>&1 || { echo "signal: clone failed (need git)" >&2; exit 1; }
+  local repo="https://github.com/darvh/signal.git"
+  local dest="$tmp_dir/signal"
+  local cloned=0
+  if [[ -n "$ref" ]]; then
+    # --branch resolves tags and branches; commit SHAs fall through to a
+    # fetch-by-sha (GitHub allows fetching reachable objects by SHA).
+    if git clone --depth 1 --branch "$ref" "$repo" "$dest" >/dev/null 2>&1; then
+      cloned=1
+    fi
+  fi
+  if ((!cloned)); then
+    rm -rf "$dest"
+    git clone --depth 1 "$repo" "$dest" >/dev/null 2>&1 || { echo "signal: clone failed (need git)" >&2; exit 1; }
+    if [[ -n "$ref" ]]; then
+      git -C "$dest" fetch --depth 1 origin "$ref" >/dev/null 2>&1 && git -C "$dest" checkout --detach FETCH_HEAD >/dev/null 2>&1 || {
+        echo "signal: cannot resolve ref '$ref' (try a branch, tag, or commit SHA)" >&2
+        exit 1
+      }
+    fi
+  fi
   local revision
-  revision="$(git -C "$tmp_dir/signal" rev-parse HEAD 2>/dev/null)" || { echo "signal: cannot read cloned revision" >&2; exit 1; }
+  revision="$(git -C "$dest" rev-parse HEAD 2>/dev/null)" || { echo "signal: cannot read cloned revision" >&2; exit 1; }
   local cached="$cache_root/$revision"
   if [[ ! -d "$cached" ]]; then
-    mv "$tmp_dir/signal" "$cached"
+    mv "$dest" "$cached"
   fi
   HERE="$cached"
 }
