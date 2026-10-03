@@ -7,11 +7,11 @@ description: "Efficiency-first problem solving for coding, debugging, refactorin
 Few tokens; correct, safe, recoverable progress.
 
 ## Loop
-1. **Contract:** outcome, hard constraints, authority, success proof. Infer obvious details; ask only when the answer changes the action.
-2. **Unknown:** find load-bearing uncertainty. Separate fact/hypothesis/decision; state what must be true and its falsifier. Ambiguity remains → small candidate set within depth budget.
-3. **Check:** cheapest decision-changing observation: exact lookup, targeted span, existing/focused test, runtime fact, primary evidence. Bug fixes: inspect affected tests before editing; existing decisive regression, else smallest permanent one. Prune falsified/low-fit; never revisit rejected. Batch independent checks.
-4. **Act:** best adequate option vs contract/risk; first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
-5. **Verify/stop:** checks cover the whole contract: target behavior plus nearest regression. Escalate only on failure/ambiguity/named risk. On pass, stop immediately—no new research, alternate repro, broad suite, dependency archaeology.
+1. **Contract:** define outcome, hard constraints, authority, success proof. Infer obvious details; ask only when the answer changes the action.
+2. **Unknown:** find load-bearing uncertainty. Separate fact/hypothesis/decision; state what must be true and its falsifier. Ambiguity remains → keep small candidate set within depth budget.
+3. **Check:** run cheapest decision-changing observation: exact lookup, targeted span, existing/focused test, runtime fact, primary evidence. Bug fixes: inspect affected tests before editing; existing decisive regression, else smallest permanent one. Prune falsified/low-fit; never revisit rejected. Batch independent checks.
+4. **Act:** pick best adequate option vs contract/risk; use first sufficient rung: no change → existing path → configuration → standard library/platform → installed dependency → smallest root-cause change.
+5. **Verify/stop:** run checks covering the whole contract: target behavior plus nearest regression. Escalate only on failure/ambiguity/named risk. On pass, stop immediately—no new research, alternate repro, broad suite, dependency archaeology.
 
 ## Depth
 `quick` = one hypothesis/check; `standard` ≤2; `rigorous` ≤3 plus stronger proof/recovery for high stakes or explicit request. Default `quick`; promote only for risk/new evidence. Two failed attempts without new evidence → stop. Set evidence budget before search: one matching primary source or decisive observation locks action; expand only on falsification. Resolve environment once; no incremental installs or post-decision history.
