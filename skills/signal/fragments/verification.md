@@ -1,8 +1,8 @@
 # Verification
 
-Reduce decision-relevant uncertainty, not all uncertainty. Set cost by risk; if the next check cannot justify its cost, stop and label `unverified`.
+Reduce decision-relevant uncertainty, not all. Cost by risk; if next check can't justify cost, stop, label `unverified`.
 
-Start at the lowest rung covering the whole success contract; climb only after failure, ambiguity, or named risk. For bug fixes, inspect affected tests before editing; prefer the repository’s decisive regression, or add the smallest permanent regression when coverage is missing. A temporary narrow check supplements coverage but never replaces it:
+Start lowest rung covering whole success contract; climb only on failure/ambiguity/named risk. Bug fixes: inspect affected tests before editing; prefer repo's decisive regression, else smallest permanent regression. Temporary narrow check supplements, never replaces:
 
 1. Path/state/text
 2. Syntax/declaration/call/focused test
@@ -10,4 +10,4 @@ Start at the lowest rung covering the whole success contract; climb only after f
 4. Build/test
 5. Runtime/production measure
 
-Label claims `exact`, `resolved`, or `heuristic`. Measure against a real baseline. Test expected failure only when it changes safety or correctness. Silence is unverified. One evidence-based recovery attempt; repeat failure → stop unresolved.
+Label claims `exact`/`resolved`/`heuristic`. Measure against real baseline. Test expected failure only if safety/correctness changes. Silence is unverified. One evidence-based recovery attempt; repeat failure → stop unresolved.
