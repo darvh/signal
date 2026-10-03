@@ -2,11 +2,37 @@
 
 Solve harder problems with fewer tokens.
 
+[![CI](https://img.shields.io/github/actions/workflow/status/darvh/signal/ci.yml?branch=main&label=CI)](https://github.com/darvh/signal/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+Signal is an agent skill for coding agents — OpenCode, Claude Code, Codex, Cursor, Copilot, Antigravity, and Pi. It reduces a problem to its load-bearing unknown, runs the cheapest decisive check, makes the smallest sufficient change, verifies, and stops.
+
+## Quickstart
+
+macOS, Linux, or WSL:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/darvh/signal/main/install.sh | bash
+```
+
+Windows:
+
+```powershell
+irm https://raw.githubusercontent.com/darvh/signal/main/install.ps1 | iex
+```
+
+Then use it in your agent — OpenCode and Claude Code get a slash command, all targets get the skill:
+
+```text
+/signal quick
+```
+
 ## Skills
 
-- [Signal](skills/signal/SKILL.md) — reduce a problem to its load-bearing unknown,
-  run the cheapest decisive check, make the smallest sufficient change, verify,
-  and stop.
+| Skill | Contents | What it does |
+|---|---|---|
+| [signal](skills/signal/SKILL.md) | `SKILL.md` | Reduce a problem to its load-bearing unknown, run the cheapest decisive check, make the smallest sufficient change, verify, and stop. |
+| fragments | `fragments/*.md` | channel, epistemology, verification, recovery, modes — loaded only as needed. |
 
 Signal optimizes the whole solve loop, not only the final response. `/signal [depth] [protocol]` supports
 `quick`, `standard`, and `rigorous` work plus `audit`, `debt`, `recommend`,
